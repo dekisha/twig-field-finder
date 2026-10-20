@@ -7,7 +7,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { toPublicEntry, type Entry } from '@/lib/entry';
 
-
 import type { Group, HelperFilter, Module } from './types';
 
 export type { Group, HelperFilter, Module };
@@ -55,7 +54,10 @@ export async function getEntries(): Promise<Entry[]> {
 
 /** Modules, most used first (then by name), so the main helper leads every list. */
 export async function getModules(): Promise<Module[]> {
-  const [modules, entries] = await Promise.all([getCollection('modules'), getCollection('entries')]);
+  const [modules, entries] = await Promise.all([
+    getCollection('modules'),
+    getCollection('entries'),
+  ]);
   const usage = new Map<string, number>();
   for (const { data } of entries) {
     for (const id of new Set((data.helper ?? []).map((h) => h.module.id))) {
@@ -64,7 +66,9 @@ export async function getModules(): Promise<Module[]> {
   }
   return modules
     .map(({ id, data }) => ({ id, ...data }))
-    .sort((a, b) => (usage.get(b.id) ?? 0) - (usage.get(a.id) ?? 0) || a.name.localeCompare(b.name));
+    .sort(
+      (a, b) => (usage.get(b.id) ?? 0) - (usage.get(a.id) ?? 0) || a.name.localeCompare(b.name),
+    );
 }
 
 export async function getHelperFilters(): Promise<HelperFilter[]> {

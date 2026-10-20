@@ -43,9 +43,7 @@ const entries = files.map((path) => ({
 
 type IdList = { id: string }[];
 const groupIds = new Set((readYaml(join(contentDir, 'groups.yaml')) as IdList).map((g) => g.id));
-const moduleIds = new Set(
-  (readYaml(join(contentDir, 'modules.yaml')) as IdList).map((m) => m.id),
-);
+const moduleIds = new Set((readYaml(join(contentDir, 'modules.yaml')) as IdList).map((m) => m.id));
 
 function codeOf(e: StoredEntry): string[] {
   return [...(e.raw ?? []), ...(e.render ?? []), ...(e.helper ?? []).map((h) => h.code)];
@@ -110,7 +108,8 @@ describe('content collection', () => {
 
   it('has unique order values within each group', () => {
     const byGroup = new Map<string, number[]>();
-    for (const { data } of entries) byGroup.set(data.group, [...(byGroup.get(data.group) ?? []), data.order]);
+    for (const { data } of entries)
+      byGroup.set(data.group, [...(byGroup.get(data.group) ?? []), data.order]);
     for (const [group, orders] of byGroup) {
       expect(new Set(orders).size, `duplicate order in ${group}`).toBe(orders.length);
     }

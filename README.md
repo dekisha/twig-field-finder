@@ -99,9 +99,8 @@ src/
   scripts/                      small vanilla enhancements (copy, filters, theme)
   highlight/                    Shiki setup, generated grammar and themes
   pages/                        builder, /fields/, /fields/[id]/, /modules/, 404
-scripts/                        generators, the seed migration, post-build checks
+scripts/                        generators and post-build checks
 e2e/                            Playwright and axe tests
-data/                           the original seed and project brief (provenance)
 ```
 
 ## Adding an entry
@@ -144,10 +143,9 @@ with a name, a drupal.org URL and a one-line description.
 
 ### Data provenance and review
 
-The content was converted once from `data/twig-field-entries.json`, my notes exported from
-Confluence, by `scripts/split-seed.ts`. A test still checks that every original snippet is
-unchanged byte for byte. The collection is now the source of truth, so the script refuses to run
-without `--force`.
+The content started as my notes exported from Confluence and was imported once into
+`src/content/`, which is now the source of truth. The original export, the import script and the
+project brief are in the git history (`git log --all -- data/`).
 
 Entries with a `review` note were corrected during conversion, or need checking on a real Drupal
 10/11 site. They're marked in the dev server's picker and on their pages. To clear one, verify
@@ -155,7 +153,7 @@ the snippet, fix it if needed, and delete the `review` line.
 
 ## Testing
 
-- **Unit and content tests:** `pnpm test`, Vitest, about 960 tests.
+- **Unit and content tests:** `pnpm test`, Vitest, about 880 tests.
 - **End-to-end:** `pnpm build && pnpm test:e2e`, Playwright at desktop width and on a 360 px
   mobile viewport.
   - **What it covers:** builder flows, shareable URLs, copy and its announcement, static pages,

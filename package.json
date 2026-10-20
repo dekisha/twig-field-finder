@@ -20,7 +20,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "seed:split": "tsx scripts/split-seed.ts",
     "verify:dist": "tsx scripts/verify-dist.ts",
     "highlight:build": "tsx scripts/build-twig-grammar.ts && tsx scripts/build-themes.ts",
     "build:apache": "astro build && tsx scripts/write-htaccess.ts",
