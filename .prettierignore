@@ -8,3 +8,5 @@ test-results/
 data/
 src/highlight/twig.tmLanguage.json
 src/highlight/twig.precompiled.ts
+src/highlight/themes/
+.tmp/

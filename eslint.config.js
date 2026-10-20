@@ -10,6 +10,7 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   globalIgnores([
+    '.tmp/',
     'src/highlight/twig.precompiled.ts',
     'dist/',
     '.astro/',

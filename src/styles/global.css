@@ -15,18 +15,197 @@
   }
 }
 
-/* Shiki dual themes (defaultColor: false): pick the variable for the active theme. */
-.shiki,
+/*
+ * Design tokens — "Editorial Reference": warm paper / deep slate, one muted
+ * teal accent. Raw values live on :root and flip for dark mode; Tailwind
+ * utilities (`bg-paper`, `text-muted`…) read them through `@theme inline`, so
+ * components never need `dark:` variants for colour.
+ */
+:root {
+  --paper: #f6f4ef;
+  --surface: #fffefb;
+  --sunken: #efece5;
+  --ink: #1c1f22;
+  --muted: #5b6168;
+  --subtle: #656b72;
+  --line: #e2ded5;
+  --line-strong: #cbc6ba;
+  /* Borders of form controls: >= 3:1 against surface and paper (WCAG 1.4.11). */
+  --control: #857f73;
+  --accent: #0e6b63;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2efec;
+  --code-bg: #fbfaf6;
+  --value: #0e6b63;
+  --value-bg: #e2efec;
+  --default-value: #7a6f5c;
+  --note-bg: #f3efe4;
+  --note-line: #d9cfb6;
+  --review-bg: #fdf1dc;
+  --review-line: #e7b65c;
+  --review-ink: #6b4708;
+  --danger: #a3322a;
+  --focus: #0e6b63;
+  color-scheme: light;
+}
+
+/* Dark tokens are repeated: a media query and an attribute selector can't share one rule. */
+:root[data-theme='dark'] {
+  --paper: #0f1418;
+  --surface: #151c21;
+  --sunken: #0b1013;
+  --ink: #e7e9ea;
+  --muted: #a2abb2;
+  --subtle: #8c959d;
+  --line: #253039;
+  --line-strong: #364551;
+  --control: #667a8a;
+  --accent: #5cc4b8;
+  --accent-ink: #062320;
+  --accent-soft: #15302d;
+  --code-bg: #10161a;
+  --value: #6fd3c7;
+  --value-bg: #16312e;
+  --default-value: #b3a68c;
+  --note-bg: #1a1f22;
+  --note-line: #3a3a30;
+  --review-bg: #2a2112;
+  --review-line: #8a6420;
+  --review-ink: #f3d49b;
+  --danger: #f08a80;
+  --focus: #6fd3c7;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #0f1418;
+    --surface: #151c21;
+    --sunken: #0b1013;
+    --ink: #e7e9ea;
+    --muted: #a2abb2;
+    --subtle: #8c959d;
+    --line: #253039;
+    --line-strong: #364551;
+    --control: #667a8a;
+    --accent: #5cc4b8;
+    --accent-ink: #062320;
+    --accent-soft: #15302d;
+    --code-bg: #10161a;
+    --value: #6fd3c7;
+    --value-bg: #16312e;
+    --default-value: #b3a68c;
+    --note-bg: #1a1f22;
+    --note-line: #3a3a30;
+    --review-bg: #2a2112;
+    --review-line: #8a6420;
+    --review-ink: #f3d49b;
+    --danger: #f08a80;
+    --focus: #6fd3c7;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-control: var(--control);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-code: var(--code-bg);
+  --color-note: var(--note-bg);
+  --color-note-line: var(--note-line);
+  --color-review: var(--review-bg);
+  --color-review-line: var(--review-line);
+  --color-review-ink: var(--review-ink);
+  --color-danger: var(--danger);
+  --color-focus: var(--focus);
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  /* One consistent, highly visible focus ring for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+  }
+}
+
+/* --- Code ---------------------------------------------------------------- */
+
+/*
+ * Shiki dual themes (defaultColor: false): pick the variable for the active
+ * theme. The block background is ours, not the theme's.
+ */
+.shiki {
+  background: transparent !important;
+}
 .shiki span {
   color: var(--shiki-light);
 }
-[data-theme='dark'] .shiki,
 [data-theme='dark'] .shiki span {
   color: var(--shiki-dark);
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .shiki,
   :root:not([data-theme='light']) .shiki span {
     color: var(--shiki-dark);
   }
+}
+
+/* Substituted values: what the user typed (or chose) stands out in the result. */
+.code-value {
+  border-radius: 3px;
+  background: var(--value-bg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--value) 25%, transparent);
+}
+.code-value,
+.code-value span {
+  color: var(--value) !important;
+}
+/* Stand-in values (empty input) read as "fill me in". */
+.code-default,
+.code-default span {
+  color: var(--default-value) !important;
+  font-style: italic;
+}
+
+/*
+ * Snippet blocks wrap instead of scrolling: Twig expressions read fine wrapped,
+ * nothing is hidden at 360px, and there's no scroll container to make
+ * keyboard-focusable. Copying always copies the unwrapped text.
+ */
+.snippet-code pre {
+  margin: 0;
+  padding: 0.875rem 1rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
 }

@@ -2,13 +2,17 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { createHighlighterCore } from 'shiki/core';
+import { createHighlighterCore, type ThemeRegistration } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 
-import grammar from './twig.tmLanguage.json';
+import { CODE_BACKGROUNDS, contrastRatio, MIN_CONTRAST } from '@/lib/contrast';
+
 import { getHighlighter, highlightTwig, THEMES } from './highlighter';
+import darkTheme from './themes/tff-dark.json';
+import lightTheme from './themes/tff-light.json';
+import grammar from './twig.tmLanguage.json';
 
 const entriesDir = join(dirname(fileURLToPath(import.meta.url)), '../content/entries');
 
@@ -42,7 +46,7 @@ describe('trimmed Twig grammar', () => {
   it('tokenises the corpus identically when precompiled', async () => {
     // Reference: the JSON grammar through Shiki's runtime Oniguruma→JS conversion.
     const reference = await createHighlighterCore({
-      themes: [import('@shikijs/themes/vitesse-light')],
+      themes: [lightTheme as ThemeRegistration],
       langs: [grammar],
       engine: createJavaScriptRegexEngine({ target: 'ES2024' }),
     });
@@ -76,5 +80,54 @@ describe('highlightTwig', () => {
     // Tokenised into Twig scopes, not one plain-text run.
     expect(tokens.length).toBeGreaterThan(1);
     expect(new Set(tokens.map((t) => t.color)).size).toBeGreaterThan(1);
+  });
+});
+
+describe('marks', () => {
+  it('wraps substituted values, even when they span several tokens', async () => {
+    const code = "{{ content['#block_content'].field_cta.value }}";
+    const start = code.indexOf('content');
+    const html = await highlightTwig(code, [
+      { start, end: start + "content['#block_content']".length, className: 'code-value' },
+    ]);
+    expect(html).toContain('class="code-value"');
+  });
+
+  it('ignores empty ranges', async () => {
+    const html = await highlightTwig('{{ x }}', [{ start: 3, end: 3, className: 'code-value' }]);
+    expect(html).not.toContain('code-value');
+  });
+});
+
+describe('break hints', () => {
+  it('adds <wbr> after path separators without changing the text', async () => {
+    const html = await highlightTwig('{{ node.field_x.value }}');
+    expect(html).toContain('<wbr>');
+    expect(html.replace(/<[^>]+>/g, '')).toBe('{{ node.field_x.value }}');
+  });
+});
+
+describe('themes', () => {
+  it.each([
+    ['light', lightTheme, CODE_BACKGROUNDS.light],
+    ['dark', darkTheme, CODE_BACKGROUNDS.dark],
+  ] as const)('%s: every token colour meets AA on the code background', (_, theme, bg) => {
+    const failing = theme.tokenColors
+      .map((rule) => ('foreground' in rule.settings ? rule.settings.foreground : undefined))
+      .filter((fg): fg is string => typeof fg === 'string')
+      .filter((fg) => contrastRatio(fg, bg) < MIN_CONTRAST);
+    expect(failing).toEqual([]);
+  });
+
+  it.each(['light', 'dark'] as const)('%s: every token in the corpus meets AA', async (mode) => {
+    const hl = await getHighlighter();
+    for (const code of corpus) {
+      for (const token of hl.codeToTokensBase(code, { lang: 'twig', theme: THEMES[mode] }).flat()) {
+        expect(
+          contrastRatio(token.color ?? '#000000', CODE_BACKGROUNDS[mode]),
+          code,
+        ).toBeGreaterThanOrEqual(MIN_CONTRAST);
+      }
+    }
   });
 });

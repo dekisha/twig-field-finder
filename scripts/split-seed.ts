@@ -40,9 +40,10 @@ async function main(): Promise<void> {
   const seed = JSON.parse(await readFile(seedPath, 'utf8')) as SeedFile;
 
   // Groups keep the order in which they first appear in the seed.
-  const groups = [...new Set(seed.entries.map((e) => e.group))].map((label) => ({
+  const groups = [...new Set(seed.entries.map((e) => e.group))].map((label, i) => ({
     id: slugify(label),
     label,
+    order: (i + 1) * 10,
   }));
 
   await rm(join(contentDir, 'entries'), { recursive: true, force: true });
@@ -71,7 +72,7 @@ async function main(): Promise<void> {
   await write(
     join(contentDir, 'groups.yaml'),
     groups,
-    '# Display order of groups in the picker and browse view.',
+    '# Groups, shown in ascending `order` in the picker and browse view.',
   );
   await write(
     join(contentDir, 'modules.yaml'),

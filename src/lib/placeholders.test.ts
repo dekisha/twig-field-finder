@@ -5,6 +5,7 @@ import {
   placeholdersIn,
   substitute,
   substituteSegments,
+  substituteWithRanges,
   unknownPlaceholdersIn,
 } from './placeholders';
 
@@ -112,5 +113,20 @@ describe('substituteSegments', () => {
 
   it('returns one literal segment when there are no placeholders', () => {
     expect(substituteSegments('{{ url }}', values)).toEqual([{ text: '{{ url }}' }]);
+  });
+});
+
+describe('substituteWithRanges', () => {
+  it('reports where each substituted value landed', () => {
+    const { code, ranges } = substituteWithRanges('{{ __ENTITY__.__FIELD__ }}', {
+      entity: 'term',
+      field: '',
+    });
+    expect(code).toBe('{{ term.field_name }}');
+    expect(ranges).toEqual([
+      { start: 3, end: 7, placeholder: 'entity', isDefault: false },
+      { start: 8, end: 18, placeholder: 'field', isDefault: true },
+    ]);
+    for (const r of ranges) expect(code.slice(r.start, r.end)).not.toContain('__');
   });
 });

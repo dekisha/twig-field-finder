@@ -7,22 +7,10 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { toPublicEntry, type Entry } from '@/lib/entry';
 
-export interface Group {
-  id: string;
-  label: string;
-}
 
-export interface Module {
-  id: string;
-  name: string;
-  url: string;
-}
+import type { Group, HelperFilter, Module } from './types';
 
-export interface HelperFilter {
-  name: string;
-  module: string;
-  description: string;
-}
+export type { Group, HelperFilter, Module };
 
 /** Review notes are a development aid and never ship in production builds. */
 export const SHOW_REVIEW = import.meta.env.DEV;
@@ -45,8 +33,10 @@ function toEntry({ id, data }: CollectionEntry<'entries'>): Entry {
 }
 
 export async function getGroups(): Promise<Group[]> {
-  // `file()` preserves the order of the YAML array, which is the display order.
-  return (await getCollection('groups')).map(({ id, data }) => ({ id, label: data.label }));
+  // Collections come back sorted by id, so display order is explicit.
+  return (await getCollection('groups'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(({ id, data }) => ({ id, label: data.label }));
 }
 
 /** All entries, ordered by group (as in groups.yaml), then by `order` within the group. */

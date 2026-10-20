@@ -107,3 +107,16 @@ describe('content collection', () => {
     }
   });
 });
+
+describe('groups', () => {
+  const groups = readYaml(join(contentDir, 'groups.yaml')) as { id: string; order: number }[];
+
+  it('have unique order values', () => {
+    expect(new Set(groups.map((g) => g.order)).size).toBe(groups.length);
+  });
+
+  it('are listed in display order, so the file reads the way the site does', () => {
+    const orders = groups.map((g) => g.order);
+    expect(orders).toEqual([...orders].sort((a, b) => a - b));
+  });
+});

@@ -1,4 +1,8 @@
 ---
+import { Font } from 'astro:assets';
+
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
 import '@/styles/global.css';
 
 interface Props {
@@ -28,8 +32,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-geist-mono" preload />
   </head>
-  <body class="bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-    <slot />
+  <body class="flex min-h-dvh flex-col antialiased">
+    <a
+      href="#main"
+      class="sr-only rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <div class="flex-1">
+      <slot />
+    </div>
+    <SiteFooter />
   </body>
 </html>

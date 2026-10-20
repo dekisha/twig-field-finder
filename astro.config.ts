@@ -1,6 +1,7 @@
 import react from '@astrojs/react';
+import optimizeLocales from '@react-aria/optimize-locales-plugin';
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 /**
  * Deployment targets are configured through environment variables so the same
@@ -19,7 +20,30 @@ export default defineConfig({
   trailingSlash: 'ignore',
   output: 'static',
   integrations: [react()],
+  // Downloaded at build time and self-hosted from the site's own origin.
+  fonts: [
+    {
+      name: 'Geist',
+      cssVariable: '--font-geist',
+      provider: fontProviders.google(),
+      weights: ['400 700'],
+      subsets: ['latin'],
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
+    {
+      name: 'Geist Mono',
+      cssVariable: '--font-geist-mono',
+      provider: fontProviders.google(),
+      weights: ['400 600'],
+      subsets: ['latin'],
+      fallbacks: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+    },
+  ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      // The UI is English-only: drop React Aria's strings for ~35 other locales.
+      optimizeLocales.vite({ locales: ['en-US'] }),
+    ],
   },
 });

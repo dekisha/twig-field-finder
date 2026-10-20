@@ -94,3 +94,35 @@ export function substituteSegments(code: string, values: Partial<PlaceholderValu
   if (last < code.length) segments.push({ text: code.slice(last) });
   return segments;
 }
+
+export interface SubstitutedRange {
+  start: number;
+  end: number;
+  placeholder: PlaceholderKey;
+  isDefault: boolean;
+}
+
+/**
+ * Substitute and report where each value landed in the output, for marking
+ * substituted values inside highlighted code.
+ */
+export function substituteWithRanges(
+  code: string,
+  values: Partial<PlaceholderValues>,
+): { code: string; ranges: SubstitutedRange[] } {
+  let offset = 0;
+  const ranges: SubstitutedRange[] = [];
+  for (const segment of substituteSegments(code, values)) {
+    const end = offset + segment.text.length;
+    if (segment.placeholder) {
+      ranges.push({
+        start: offset,
+        end,
+        placeholder: segment.placeholder,
+        isDefault: segment.isDefault === true,
+      });
+    }
+    offset = end;
+  }
+  return { code: substitute(code, values), ranges };
+}

@@ -42,7 +42,7 @@ const entries = defineCollection({
 
 const groups = defineCollection({
   loader: file('./src/content/groups.yaml'),
-  schema: z.object({ label: z.string().min(1) }),
+  schema: z.object({ label: z.string().min(1), order: z.number().int().nonnegative() }),
 });
 
 const modules = defineCollection({

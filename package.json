@@ -2,7 +2,7 @@
   "name": "twig-field-finder",
   "version": "0.1.0",
   "private": true,
-  "description": "Twig Field Finder \u2014 Every Drupal field value in Twig, copy-ready.",
+  "description": "Twig Field Finder — Every Drupal field value in Twig, copy-ready.",
   "type": "module",
   "packageManager": "pnpm@12.14.0",
   "engines": {
@@ -20,8 +20,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "seed:split": "tsx scripts/split-seed.ts",
-    "grammar:build": "tsx scripts/build-twig-grammar.ts",
-    "verify:dist": "tsx scripts/verify-dist.ts"
+    "verify:dist": "tsx scripts/verify-dist.ts",
+    "highlight:build": "tsx scripts/build-twig-grammar.ts && tsx scripts/build-themes.ts"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",
@@ -40,7 +40,9 @@
     "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.64.1",
+    "@react-aria/optimize-locales-plugin": "^2.1.0",
     "@shikijs/langs": "^4.5.0",
+    "@types/hast": "^3.0.5",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

@@ -1,27 +1,40 @@
-# Display order of groups in the picker and browse view.
+# Groups, shown in ascending `order` in the picker and browse view.
 - id: entity-basics
   label: Entity basics
+  order: 10
 - id: utilities
   label: Utilities
+  order: 20
 - id: text
   label: Text
+  order: 30
 - id: simple-values
   label: Simple values
+  order: 40
 - id: link
   label: Link
+  order: 50
 - id: image
   label: Image
+  order: 60
 - id: file
   label: File
+  order: 70
 - id: address
   label: Address
+  order: 80
 - id: user
   label: User
+  order: 90
 - id: media
   label: Media
+  order: 100
 - id: entity-reference
   label: Entity reference
+  order: 110
 - id: paragraphs
   label: Paragraphs
+  order: 120
 - id: config-pages
   label: Config pages
+  order: 130
