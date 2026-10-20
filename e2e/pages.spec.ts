@@ -104,3 +104,15 @@ test('browse lists entries alphabetically within each group', async ({ page }) =
     expect(labels).toEqual(sorted);
   }
 });
+
+test('entry page lists related entries alphabetically', async ({ page }) => {
+  await page.goto('/fields/image-path/');
+  const labels = await page
+    .locator('section[aria-labelledby="related-heading"] li a')
+    .allInnerTexts();
+  expect(labels.length).toBeGreaterThan(1);
+  const sorted = [...labels].sort((a, b) =>
+    a.localeCompare(b, 'en', { sensitivity: 'base', numeric: true }),
+  );
+  expect(labels).toEqual(sorted);
+});

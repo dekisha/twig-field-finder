@@ -33,7 +33,10 @@ const group = groups.find((g) => g.id === entry.group);
 const groupLabel = group?.label ?? entry.group;
 const moduleMap = new Map(modules.map((m) => [m.id, m]));
 const approaches = approachesFor(entry);
-const related = entries.filter((e) => e.group === entry.group && e.id !== entry.id);
+const alphabetical = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+const related = entries
+  .filter((e) => e.group === entry.group && e.id !== entry.id)
+  .sort((a, b) => alphabetical.compare(a.label, b.label));
 const usedModules = modulesFor(entry).flatMap((id) => moduleMap.get(id) ?? []);
 
 /** Builder link with this entry (and approach, if there's a choice) prefilled. */
@@ -179,7 +182,7 @@ const description = `How to get ${entry.label.replace(/ — /g, ' ')} in a Drupa
         <h2 id="related-heading" class="text-sm font-semibold text-ink">
           More in {groupLabel}
         </h2>
-        <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+        <ul class="mt-3 flex flex-col gap-2">
           {related.map((e) => (
             <li>
               <a href={withBase(`/fields/${e.id}/`)} class="text-accent hover:underline">
