@@ -25,6 +25,7 @@
     "highlight:build": "tsx scripts/build-twig-grammar.ts && tsx scripts/build-themes.ts",
     "build:apache": "astro build && tsx scripts/write-htaccess.ts",
     "deploy:cloudflare": "astro build && pnpm dlx wrangler@4 deploy",
+    "deploy:ssh": "bash scripts/deploy-ssh.sh",
     "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:dist"
   },
   "dependencies": {

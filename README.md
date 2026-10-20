@@ -221,6 +221,11 @@ headers, long caching for `/_astro/`, revalidation for HTML, and compression. Ap
 `DirectorySlash` handles trailing slashes. The Cloudflare `_headers` file is removed from this
 build.
 
+For a subdomain over SSH, `pnpm deploy:ssh` builds and uploads in one step (no `rsync` needed on
+the server). Set `DEPLOY_HOST`, `DEPLOY_PATH` and `SITE_URL` to override the defaults in
+`scripts/deploy-ssh.sh`. It replaces the previous deploy but keeps cPanel's `.well-known`,
+`cgi-bin`, `php.ini` and `.user.ini`.
+
 On **nginx**, a starting point (adjust the paths to your server):
 
 ```nginx
