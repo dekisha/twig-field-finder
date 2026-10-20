@@ -19,6 +19,8 @@ const seed = JSON.parse(
 /** Review notes added after the migration, with the user's approval. */
 const REVIEW_ADDED = new Set(['boolean']);
 const REVIEW_EXTENDED = new Set(['ref-url']);
+/** Verified against Drupal source: review note resolved, notes may differ. */
+const VERIFIED = new Set(['address', 'ref-label']);
 
 describe.each(seed.entries)('seed entry $id', (original) => {
   const path = join(root, 'src/content/entries', slugify(original.group), `${original.id}.yaml`);
@@ -33,11 +35,13 @@ describe.each(seed.entries)('seed entry $id', (original) => {
   it('keeps label, usesField and notes', () => {
     expect(stored.label).toBe(original.label);
     expect(stored.usesField).toBe(original.usesField);
-    expect(stored.notes).toBe(original.notes);
+    if (!VERIFIED.has(original.id)) expect(stored.notes).toBe(original.notes);
   });
 
   it('keeps the review note', () => {
-    if (REVIEW_ADDED.has(original.id)) {
+    if (VERIFIED.has(original.id)) {
+      expect(stored.review).toBeUndefined();
+    } else if (REVIEW_ADDED.has(original.id)) {
       expect(original.review).toBeUndefined();
       expect(stored.review).toEqual(expect.any(String));
     } else if (REVIEW_EXTENDED.has(original.id)) {

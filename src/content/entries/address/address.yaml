@@ -18,4 +18,4 @@ helper:
     module: twig_field_value
   - code: "{{ content.__FIELD__|field_value.0.locality['#value'] }}"
     module: twig_field_value
-review: Original used `.value.address_line1` and `.locality.name` / `.country.name`. AddressItem exposes properties directly (`address_line1`, `locality`, `country_code`). Render-array keys depend on the formatter — verify all three columns.
+notes: Render keys come from the default formatter and only exist for fields the country’s address format uses (`country` is always there). Their `#value` is already HTML-escaped, so an apostrophe or ampersand prints as an entity; the raw properties don’t have this problem.
