@@ -1,12 +1,18 @@
+# Contrib modules used by helper snippets. `description` is site copy (not from
+# the original notes): keep it to what the module offers for templates.
 - id: twig_field_value
   name: Twig Field Value
   url: https://www.drupal.org/project/twig_field_value
+  description: Twig filters that pull a field's label, rendered value, raw properties or referenced entities out of a render array, without the field wrappers.
 - id: bamboo_twig
   name: Bamboo Twig
   url: https://www.drupal.org/project/bamboo_twig
+  description: A collection of Twig extensions for Drupal, including functions to render an image style straight from a file URI.
 - id: twig_tweak
   name: Twig Tweak
   url: https://www.drupal.org/project/twig_tweak
+  description: Twig functions and filters for common theming tasks, such as rendering blocks, views, entities and fields, and an `image_style` filter for file URIs.
 - id: config_pages
   name: Config Pages
   url: https://www.drupal.org/project/config_pages
+  description: Fieldable configuration pages for site-wide settings, with a Twig function to render a config page field anywhere.

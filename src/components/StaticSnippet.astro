@@ -1,0 +1,35 @@
+---
+import { ModuleBadge } from '@/components/ModuleBadge';
+import StaticCopyButton from '@/components/StaticCopyButton.astro';
+import type { Module } from '@/data/types';
+import { highlightTwig } from '@/highlight/highlighter';
+import { substituteWithRanges } from '@/lib/placeholders';
+
+interface Props {
+  template: string;
+  module?: Module | undefined;
+  index: number;
+  total: number;
+}
+
+const { template, module, index, total } = Astro.props;
+
+// No input on a static page: every placeholder shows its stand-in value.
+const { code, ranges } = substituteWithRanges(template, {});
+const html = await highlightTwig(
+  code,
+  ranges.map((r) => ({ start: r.start, end: r.end, className: 'code-default' })),
+);
+const caption = total > 1 ? `Snippet ${String(index + 1)}` : 'Twig';
+---
+
+<li class="overflow-hidden rounded-xl border border-line bg-code">
+  <div class="flex min-h-11 items-center justify-between gap-3 border-b border-line py-1.5 pr-1.5 pl-4">
+    <span class="text-xs text-subtle">{module ? <ModuleBadge module={module} /> : caption}</span>
+    <StaticCopyButton
+      text={code}
+      label={total > 1 ? `Copy snippet ${String(index + 1)} of ${String(total)}` : undefined}
+    />
+  </div>
+  <div class="snippet-code" set:html={html} />
+</li>

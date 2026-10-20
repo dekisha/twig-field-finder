@@ -1,0 +1,198 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import { InlineCode } from '@/components/InlineCode';
+import { ModuleBadge } from '@/components/ModuleBadge';
+import StaticSnippet from '@/components/StaticSnippet.astro';
+import { getEntries, getGroups, getModules, SHOW_REVIEW } from '@/data/entries';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import {
+  APPROACH_DESCRIPTIONS,
+  APPROACH_LABELS,
+  approachesFor,
+  modulesFor,
+  snippetsFor,
+  type Approach,
+  type Entry,
+} from '@/lib/entry';
+import { withBase } from '@/lib/paths';
+import { serializeBuilderState } from '@/lib/url-state';
+
+export const getStaticPaths = (async () => {
+  const entries = await getEntries();
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: Entry;
+}
+
+const { entry } = Astro.props;
+const [entries, groups, modules] = await Promise.all([getEntries(), getGroups(), getModules()]);
+const group = groups.find((g) => g.id === entry.group);
+const groupLabel = group?.label ?? entry.group;
+const moduleMap = new Map(modules.map((m) => [m.id, m]));
+const approaches = approachesFor(entry);
+const related = entries.filter((e) => e.group === entry.group && e.id !== entry.id);
+const usedModules = modulesFor(entry).flatMap((id) => moduleMap.get(id) ?? []);
+
+/** Builder link with this entry (and approach, if there's a choice) prefilled. */
+const builderHref = (approach?: Approach) =>
+  withBase(
+    `/?${serializeBuilderState({ entry: entry.id, approach: approaches.length > 1 ? approach : undefined })}`,
+  );
+
+const description = `How to get ${entry.label.replace(/ — /g, ' ')} in a Drupal Twig template: ${approaches
+  .map((a) => APPROACH_LABELS[a].toLowerCase())
+  .join(', ')} snippets, ready to copy.`;
+---
+
+<BaseLayout title={entry.label} description={description}>
+  <main id="main" class="mx-auto w-full max-w-3xl px-4 pt-8 pb-20 sm:px-6 lg:pt-12">
+    <nav aria-label="Breadcrumb" class="text-sm text-muted">
+      <ol class="flex flex-wrap items-center gap-1.5">
+        <li>
+          <a href={withBase('/fields/')} class="hover:text-ink hover:underline">
+            Browse
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          <a
+            href={withBase(`/fields/?group=${entry.group}`)}
+            class="hover:text-ink hover:underline"
+          >
+            {groupLabel}
+          </a>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+      <h1 class="text-3xl font-semibold tracking-tight text-balance text-ink sm:text-4xl">
+        {entry.label}
+      </h1>
+      <a
+        href={builderHref()}
+        class="inline-flex min-h-10 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-ink transition-colors hover:bg-accent/90"
+      >
+        {entry.usesField ? 'Fill in your field name' : 'Open in builder'}
+        <svg aria-hidden="true" viewBox="0 0 20 20" class="size-4" fill="none">
+          <path
+            d="M5 10h10m-4-4 4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+    </div>
+
+    <p class="mt-3 text-muted">
+      {entry.usesField
+        ? 'Italic values are placeholders: replace them with your own machine names, or let the builder do it.'
+        : 'This is a property of the entity itself, so there’s no field name to fill in.'}
+    </p>
+
+    {SHOW_REVIEW && entry.review !== undefined && (
+      <div
+        role="note"
+        class="mt-6 rounded-lg border-l-4 border-review-line bg-review px-4 py-3 text-sm/6 text-review-ink"
+      >
+        <p class="mb-0.5 font-semibold">Needs verification · dev only</p>
+        <p>
+          <InlineCode text={entry.review} />
+        </p>
+      </div>
+    )}
+
+    {approaches.map((approach) => {
+      const snippets = snippetsFor(entry, approach);
+      return (
+        <section aria-labelledby={`approach-${approach}`} class="mt-10">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h2 id={`approach-${approach}`} class="text-xl font-semibold tracking-tight text-ink">
+              {APPROACH_LABELS[approach]}
+            </h2>
+            <a href={builderHref(approach)} class="text-sm font-medium text-accent hover:underline">
+              Open in builder
+              <span class="sr-only"> ({APPROACH_LABELS[approach]})</span>
+            </a>
+          </div>
+          <p class="mt-1 text-sm text-muted">
+            <InlineCode text={APPROACH_DESCRIPTIONS[approach]} />
+          </p>
+          <ol class="mt-4 flex flex-col gap-3">
+            {snippets.map((snippet, index) => (
+              <StaticSnippet
+                template={snippet.code}
+                module={snippet.module === undefined ? undefined : moduleMap.get(snippet.module)}
+                index={index}
+                total={snippets.length}
+              />
+            ))}
+          </ol>
+        </section>
+      );
+    })}
+
+    {entry.notes !== undefined && (
+      <div
+        role="note"
+        class="mt-8 rounded-lg border-l-4 border-note-line bg-note px-4 py-3 text-sm/6 text-ink"
+      >
+        <p class="mb-0.5 font-semibold">Gotcha</p>
+        <p>
+          <InlineCode text={entry.notes} />
+        </p>
+      </div>
+    )}
+
+    {usedModules.length > 0 && (
+      <section aria-labelledby="modules-heading" class="mt-10">
+        <h2 id="modules-heading" class="text-sm font-semibold text-ink">
+          Contrib modules used
+        </h2>
+        <ul class="mt-2 flex flex-wrap gap-2">
+          {usedModules.map((m) => (
+            <li>
+              <ModuleBadge module={m} />
+            </li>
+          ))}
+        </ul>
+        <p class="mt-2 text-sm text-muted">
+          See{' '}
+          <a href={withBase('/modules/')} class="text-accent hover:underline">
+            helper modules
+          </a>{' '}
+          for what each one provides.
+        </p>
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <section aria-labelledby="related-heading" class="mt-12 border-t border-line pt-8">
+        <h2 id="related-heading" class="text-sm font-semibold text-ink">
+          More in {groupLabel}
+        </h2>
+        <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+          {related.map((e) => (
+            <li>
+              <a href={withBase(`/fields/${e.id}/`)} class="text-accent hover:underline">
+                {e.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </main>
+  <div data-copy-status role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+</BaseLayout>
+
+<script>
+  import { initCopyButtons } from '@/scripts/copy-buttons';
+
+  initCopyButtons();
+</script>

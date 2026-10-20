@@ -9,6 +9,8 @@ export interface Module {
   id: string;
   name: string;
   url: string;
+  /** What the module offers for templates; supports `inline code`. */
+  description: string;
 }
 
 export interface HelperFilter {

@@ -10,6 +10,7 @@ import {
   type Approach,
   type Entry,
 } from '@/lib/entry';
+import { withBase } from '@/lib/paths';
 
 import { CopyButton } from './CopyButton';
 import { SnippetCode, type Highlighter } from './SnippetCode';
@@ -60,15 +61,23 @@ export function ResultPanel({
             {entry.label}
           </h2>
         </div>
-        {snippets.length > 1 && (
-          <CopyButton
-            text={snippets.map((s) => s.code).join('\n')}
-            label={`Copy all ${String(snippets.length)} snippets`}
-            variant="quiet"
+        <div className="flex items-center gap-1">
+          <a
+            href={withBase(`/fields/${entry.id}/`)}
+            className="inline-flex min-h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted hover:bg-sunken hover:text-ink"
           >
-            Copy all
-          </CopyButton>
-        )}
+            Reference page<span className="sr-only">: {entry.label}</span>
+          </a>
+          {snippets.length > 1 && (
+            <CopyButton
+              text={snippets.map((s) => s.code).join('\n')}
+              label={`Copy all ${String(snippets.length)} snippets`}
+              variant="quiet"
+            >
+              Copy all
+            </CopyButton>
+          )}
+        </div>
       </header>
 
       {approaches.length > 1 ? (

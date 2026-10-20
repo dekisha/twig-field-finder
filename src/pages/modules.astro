@@ -1,0 +1,115 @@
+---
+import { InlineCode } from '@/components/InlineCode';
+import StaticCopyButton from '@/components/StaticCopyButton.astro';
+import { getEntries, getHelperFilters, getModules } from '@/data/entries';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { modulesFor } from '@/lib/entry';
+import { withBase } from '@/lib/paths';
+
+const [entries, modules, filters] = await Promise.all([
+  getEntries(),
+  getModules(),
+  getHelperFilters(),
+]);
+
+const sections = modules.map((module) => ({
+  module,
+  filters: filters.filter((f) => f.module === module.id),
+  usedBy: entries.filter((e) => modulesFor(e).includes(module.id)),
+  install: `composer require drupal/${module.id}`,
+}));
+---
+
+<BaseLayout
+  title="Helper modules"
+  description="The contrib modules behind the helper snippets: Twig Field Value filters, Bamboo Twig, Twig Tweak and Config Pages."
+>
+  <main id="main" class="mx-auto w-full max-w-3xl px-4 pt-10 pb-20 sm:px-6 lg:pt-14">
+    <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Helper modules</h1>
+    <p class="mt-3 text-lg text-muted">
+      Core Twig can reach any field value, but these contrib modules make the common cases shorter
+      and keep render-array internals out of your templates.
+    </p>
+
+    <nav aria-label="Modules on this page" class="mt-6">
+      <ul class="flex flex-wrap gap-2">
+        {modules.map((m) => (
+          <li>
+            <a
+              href={`#${m.id}`}
+              class="inline-block rounded-full border border-line-strong bg-surface px-3 py-1 font-mono text-sm text-muted hover:border-accent hover:text-accent"
+            >
+              {m.id}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {sections.map(({ module, filters: provided, usedBy, install }) => (
+      <section
+        id={module.id}
+        aria-labelledby={`${module.id}-heading`}
+        class="mt-12 scroll-mt-6 border-t border-line pt-8"
+      >
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h2 id={`${module.id}-heading`} class="text-2xl font-semibold tracking-tight text-ink">
+            {module.name}
+          </h2>
+          <a href={module.url} class="text-sm font-medium text-accent hover:underline">
+            drupal.org/project/{module.id}
+          </a>
+        </div>
+        <p class="mt-2 text-ink">
+          <InlineCode text={module.description} />
+        </p>
+
+        <div class="mt-4 flex items-center justify-between gap-3 rounded-xl border border-line bg-code py-1.5 pr-1.5 pl-4">
+          <code class="font-mono text-sm break-all text-ink">{install}</code>
+          <StaticCopyButton text={install} label={`Copy install command for ${module.name}`} />
+        </div>
+
+        {provided.length > 0 && (
+          <div class="mt-6">
+            <h3 class="text-sm font-semibold text-ink">Twig filters</h3>
+            <dl class="mt-2 divide-y divide-line rounded-xl border border-line bg-surface">
+              {provided.map((f) => (
+                <div class="grid gap-1 px-4 py-3 sm:grid-cols-[12rem_1fr] sm:gap-4">
+                  <dt class="font-mono text-sm text-accent">|{f.name}</dt>
+                  <dd class="text-sm text-ink">{f.description}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        {usedBy.length > 0 && (
+          <div class="mt-6">
+            <h3 class="text-sm font-semibold text-ink">
+              Used in {usedBy.length} {usedBy.length === 1 ? 'entry' : 'entries'}
+            </h3>
+            <ul class="mt-2 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+              {usedBy.map((e) => (
+                <li>
+                  <a
+                    href={withBase(`/fields/${e.id}/`)}
+                    class="text-sm text-accent hover:underline"
+                  >
+                    {e.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+    ))}
+  </main>
+  <div data-copy-status role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+</BaseLayout>
+
+<script>
+  import { initCopyButtons } from '@/scripts/copy-buttons';
+
+  initCopyButtons();
+</script>

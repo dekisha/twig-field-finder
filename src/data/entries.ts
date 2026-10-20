@@ -52,8 +52,18 @@ export async function getEntries(): Promise<Entry[]> {
     .map(toEntry);
 }
 
+/** Modules, most used first (then by name), so the main helper leads every list. */
 export async function getModules(): Promise<Module[]> {
-  return (await getCollection('modules')).map(({ id, data }) => ({ id, ...data }));
+  const [modules, entries] = await Promise.all([getCollection('modules'), getCollection('entries')]);
+  const usage = new Map<string, number>();
+  for (const { data } of entries) {
+    for (const id of new Set((data.helper ?? []).map((h) => h.module.id))) {
+      usage.set(id, (usage.get(id) ?? 0) + 1);
+    }
+  }
+  return modules
+    .map(({ id, data }) => ({ id, ...data }))
+    .sort((a, b) => (usage.get(b.id) ?? 0) - (usage.get(a.id) ?? 0) || a.name.localeCompare(b.name));
 }
 
 export async function getHelperFilters(): Promise<HelperFilter[]> {

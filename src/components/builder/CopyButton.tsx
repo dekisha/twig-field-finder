@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useAnnounce } from './Announcer';
-import { copyText } from './clipboard';
+import {
+  COPY_ANNOUNCEMENTS,
+  COPY_BUTTON_CLASS,
+  COPY_LABELS,
+  COPY_RESET_MS,
+} from '@/components/copy-button';
+import { copyText } from '@/scripts/clipboard';
 
-const RESET_MS = 2000;
+import { useAnnounce } from './Announcer';
 
 interface Props {
   text: string;
@@ -16,7 +21,12 @@ interface Props {
 
 type Status = 'idle' | 'copied' | 'failed';
 
-export function CopyButton({ text, label, children = 'Copy', variant = 'primary' }: Props) {
+export function CopyButton({
+  text,
+  label,
+  children = COPY_LABELS.idle,
+  variant = 'primary',
+}: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const announce = useAnnounce();
   const timer = useRef<number | undefined>(undefined);
@@ -31,34 +41,25 @@ export function CopyButton({ text, label, children = 'Copy', variant = 'primary'
   async function handleClick() {
     const ok = await copyText(text);
     setStatus(ok ? 'copied' : 'failed');
-    announce(ok ? 'Copied to clipboard' : 'Copy failed. Select the code and copy it manually.');
+    announce(ok ? COPY_ANNOUNCEMENTS.copied : COPY_ANNOUNCEMENTS.failed);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => {
       setStatus('idle');
-    }, RESET_MS);
+    }, COPY_RESET_MS);
   }
-
-  const base =
-    'inline-flex min-h-8 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium transition-colors';
-  // "primary" stays outlined: one accent colour, used for text and borders,
-  // reads calmer than a column of solid buttons.
-  const styles =
-    variant === 'primary'
-      ? status === 'copied'
-        ? 'border border-accent bg-accent-soft text-accent'
-        : 'border border-line-strong bg-surface text-accent hover:border-accent hover:bg-accent-soft'
-      : 'text-muted hover:bg-sunken hover:text-ink';
 
   return (
     <button
       type="button"
-      className={`${base} ${styles}`}
+      className={COPY_BUTTON_CLASS[variant]}
+      data-copied={status === 'copied' || undefined}
+      data-failed={status === 'failed' || undefined}
       aria-label={label}
       onClick={() => void handleClick()}
     >
       {status === 'copied' ? <CheckIcon /> : <CopyIcon />}
       <span aria-hidden={label !== undefined}>
-        {status === 'copied' ? 'Copied' : status === 'failed' ? 'Copy failed' : children}
+        {status === 'idle' ? children : COPY_LABELS[status]}
       </span>
     </button>
   );

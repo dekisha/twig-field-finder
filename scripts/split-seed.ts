@@ -76,6 +76,7 @@ async function main(): Promise<void> {
   );
   await write(
     join(contentDir, 'modules.yaml'),
+    // Descriptions are site copy added after the migration; see modules.yaml.
     Object.entries(seed.modules).map(([id, url]) => ({ id, name: MODULE_NAMES[id] ?? id, url })),
   );
   await write(

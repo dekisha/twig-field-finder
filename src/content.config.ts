@@ -47,7 +47,7 @@ const groups = defineCollection({
 
 const modules = defineCollection({
   loader: file('./src/content/modules.yaml'),
-  schema: z.object({ name: z.string().min(1), url: z.url() }),
+  schema: z.object({ name: z.string().min(1), url: z.url(), description: z.string().min(1) }),
 });
 
 const helperFilters = defineCollection({
