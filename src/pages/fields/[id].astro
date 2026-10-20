@@ -163,7 +163,10 @@ const description = `How to get ${entry.label.replace(/ — /g, ' ')} in a Drupa
         </ul>
         <p class="mt-2 text-sm text-muted">
           See{' '}
-          <a href={withBase('/modules/')} class="text-accent hover:underline">
+          <a
+            href={withBase('/modules/')}
+            class="text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent"
+          >
             helper modules
           </a>{' '}
           for what each one provides.

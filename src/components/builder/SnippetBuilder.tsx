@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import type { Group, Module } from '@/data/types';
 import type { Approach, Entry } from '@/lib/entry';
 
+import { DEFAULT_VALUES } from '@/lib/placeholders';
+
 import { AnnouncerProvider } from './Announcer';
 import { EntityContextControl } from './EntityContextControl';
 import { EntryPicker } from './EntryPicker';
@@ -59,7 +61,8 @@ export function SnippetBuilder({
             label="Field machine name"
             value={state.field}
             onChange={builder.setField}
-            placeholder="field_hero_image"
+            // Same stand-in the result shows while the input is empty.
+            placeholder={DEFAULT_VALUES.field}
             description="As shown in Manage fields, e.g. field_hero_image."
             disabledReason={
               entry.usesField
@@ -72,8 +75,8 @@ export function SnippetBuilder({
               label="Field on the referenced entity"
               value={state.subfield}
               onChange={builder.setSubfield}
-              placeholder="field_image"
-              description="The field to read from the entity that the reference points to."
+              placeholder={DEFAULT_VALUES.subfield}
+              description="The field to read on the referenced entity, e.g. field_image."
             />
           )}
           <EntityContextControl

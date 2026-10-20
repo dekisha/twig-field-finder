@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    rect { fill: #0e6b63; }
+    path, circle { stroke: #ffffff; }
+    circle { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: #5cc4b8; }
+      path, circle { stroke: #062320; }
+      circle { fill: #062320; }
+    }
+  </style>
+  <rect width="32" height="32" rx="8" />
+  <path d="M12 8.5c-2.2 0-3.3 1.1-3.3 3.3v1.7c0 1.6-1.1 2.5-2.2 2.5 1.1 0 2.2.9 2.2 2.5v1.7c0 2.2 1.1 3.3 3.3 3.3M20 8.5c2.2 0 3.3 1.1 3.3 3.3v1.7c0 1.6 1.1 2.5 2.2 2.5-1.1 0-2.2.9-2.2 2.5v1.7c0 2.2-1.1 3.3-3.3 3.3" fill="none" stroke-width="2" stroke-linecap="round" />
+  <circle cx="16" cy="16" r="1.9" stroke-width="0" />
+</svg>

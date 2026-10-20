@@ -5,7 +5,7 @@ export function ModuleBadge({ module }: { module: Module }) {
   return (
     <a
       href={module.url}
-      className="inline-flex items-center gap-1 rounded-full border border-line-strong bg-surface px-2 py-0.5 text-xs font-medium text-muted transition-colors hover:border-accent hover:text-accent"
+      className="inline-flex min-h-6 items-center gap-1 rounded-full border border-line-strong bg-surface px-2 py-0.5 text-xs font-medium text-muted transition-colors hover:border-accent hover:text-accent"
     >
       <span className="sr-only">Requires the </span>
       <span className="font-mono">{module.id}</span>

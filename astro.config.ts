@@ -27,6 +27,8 @@ export default defineConfig({
       cssVariable: '--font-geist',
       provider: fontProviders.google(),
       weights: ['400 700'],
+      // The UI never uses italics.
+      styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
     },
@@ -35,6 +37,8 @@ export default defineConfig({
       cssVariable: '--font-geist-mono',
       provider: fontProviders.google(),
       weights: ['400 600'],
+      // Italic marks placeholder stand-ins in code.
+      styles: ['normal', 'italic'],
       subsets: ['latin'],
       fallbacks: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
     },

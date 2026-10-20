@@ -3,6 +3,8 @@ import { Font } from 'astro:assets';
 
 import SiteFooter from '@/components/SiteFooter.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
+import { withBase } from '@/lib/paths';
+import { THEME_STORAGE_KEY } from '@/lib/theme';
 import '@/styles/global.css';
 
 interface Props {
@@ -24,6 +26,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Apply a stored theme before first paint (no flash). Mirrors src/scripts/theme-toggle.ts. -->
+    <script is:inline define:vars={{ key: THEME_STORAGE_KEY }}>
+      try {
+        const theme = localStorage.getItem(key);
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {
+        // Storage unavailable: follow the system theme.
+      }
+    </script>
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -32,8 +45,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <!-- Only the UI font is preloaded: it carries the LCP text. The code font
+         swaps in with metric-matched fallbacks, so it causes no layout shift. -->
     <Font cssVariable="--font-geist" preload />
-    <Font cssVariable="--font-geist-mono" preload />
+    <Font cssVariable="--font-geist-mono" />
   </head>
   <body class="flex min-h-dvh flex-col antialiased">
     <a

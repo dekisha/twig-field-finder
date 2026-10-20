@@ -90,6 +90,12 @@ export function EntryPicker({ entries, groups, value, onChange, showReview }: Pr
         <Input
           className="w-full rounded-lg border border-control bg-surface py-2.5 pr-11 pl-3 text-base text-ink placeholder:text-subtle data-focused:border-accent data-focused:outline-2 data-focused:outline-offset-0 data-focused:outline-accent/30"
           placeholder="Search field types, e.g. image alt"
+          // Typing starts a new search instead of appending to the current label.
+          // Only while it still shows that label: focus also bounces when the
+          // popover opens, and re-selecting then would eat keystrokes mid-search.
+          onFocus={(event) => {
+            if (event.currentTarget.value === selectedLabel) event.currentTarget.select();
+          }}
         />
         <Button
           aria-label="Show all field types"
@@ -103,10 +109,13 @@ export function EntryPicker({ entries, groups, value, onChange, showReview }: Pr
       </Text>
       <Popover
         offset={6}
-        className="w-(--trigger-width) overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg shadow-black/10"
+        // React Aria sizes the popover to the space available (inline max-height);
+        // the list flexes into it and scrolls internally. Scrolling the selected
+        // item into view must never scroll the page: that closes the popover.
+        className="flex w-(--trigger-width) flex-col overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg shadow-black/10"
       >
         <ListBox<Section>
-          className="max-h-[min(24rem,60vh)] overflow-y-auto p-1 outline-none"
+          className="max-h-96 min-h-0 flex-1 overflow-y-auto overscroll-contain p-1 outline-none"
           renderEmptyState={() => (
             <p className="px-3 py-6 text-center text-sm text-muted">
               No field types match “{query}”.
@@ -123,7 +132,7 @@ export function EntryPicker({ entries, groups, value, onChange, showReview }: Pr
                   <ListBoxItem
                     id={entry.id}
                     textValue={entry.label}
-                    className="flex cursor-default items-center gap-2 rounded-md px-2.5 py-2 text-sm text-ink outline-none data-focused:bg-accent-soft data-selected:font-medium"
+                    className="flex cursor-default items-center gap-2 rounded-md px-2.5 py-2 text-sm text-ink outline-none data-focused:bg-accent-soft data-focused:shadow-[inset_3px_0_0_var(--color-accent)] data-selected:font-medium"
                   >
                     {({ isSelected }) => (
                       <>

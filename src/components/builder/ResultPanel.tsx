@@ -95,7 +95,7 @@ export function ResultPanel({
               <Tab
                 key={a}
                 id={a}
-                className="relative -mb-px cursor-default border-b-2 border-transparent px-2.5 py-3 text-sm font-medium whitespace-nowrap text-muted outline-none hover:text-ink data-focus-visible:rounded-t-md data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-selected:border-accent data-selected:text-ink"
+                className="relative -mb-px cursor-default border-b-2 border-transparent px-2.5 py-3 text-sm font-medium whitespace-nowrap text-muted hover:text-ink data-focus-visible:rounded-t-md data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-selected:border-accent data-selected:text-ink"
               >
                 {APPROACH_LABELS[a]}
               </Tab>
@@ -105,7 +105,7 @@ export function ResultPanel({
             <TabPanel
               key={a}
               id={a}
-              className="outline-none data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus"
+              className="data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus"
             >
               {body}
             </TabPanel>
