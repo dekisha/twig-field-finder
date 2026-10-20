@@ -33,10 +33,10 @@ export function EntityContextControl({ value, onChange, disabledReason }: Props)
       isDisabled={disabledReason !== undefined}
     >
       <Label className="text-sm font-medium text-ink">Template context</Label>
-      <div className="flex gap-1 rounded-lg border border-control bg-sunken p-1">
+      <div className="flex flex-wrap gap-1 rounded-lg border border-control bg-sunken p-1 sm:grid-cols-6 lg:grid-cols-3 xl:grid-cols-6">
         {ENTITY_CONTEXTS.map((c) => (
-          <RadioField key={c.id} value={c.id} className="flex">
-            <RadioButton className="flex min-h-9 flex-1 cursor-default items-center justify-center rounded-md px-2 text-sm font-medium text-muted transition-colors hover:text-ink data-disabled:cursor-not-allowed data-disabled:hover:text-muted data-focus-visible:outline-2 data-focus-visible:outline-focus data-selected:bg-surface data-selected:text-ink data-selected:shadow-sm data-selected:ring-1 data-selected:ring-control data-disabled:data-selected:text-muted">
+          <RadioField key={c.id} value={c.id} className="flex flex-1 cursor-pointer">
+            <RadioButton className="flex min-h-9 flex-1 cursor-pointer items-center justify-center rounded-md px-2 text-sm font-medium text-muted transition-colors hover:text-ink data-disabled:cursor-not-allowed data-disabled:hover:text-muted data-focus-visible:outline-2 data-focus-visible:outline-focus data-selected:bg-surface data-selected:text-ink data-selected:shadow-sm data-selected:ring-1 data-selected:ring-control data-disabled:data-selected:text-muted">
               {c.label}
             </RadioButton>
           </RadioField>
