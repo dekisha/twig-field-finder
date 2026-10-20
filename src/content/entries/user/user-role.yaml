@@ -1,0 +1,12 @@
+label: User — role check
+group: user
+order: 40
+usesField: false
+raw:
+  - |-
+    {% if user.hasRole('editor') %}
+      …
+    {% endif %}
+  - "{{ user.getRoles()|join(', ') }}"
+notes: Outside user.html.twig, `user` is the default template variable for the current visitor, not an author. Roles are machine names, such as `administrator`.
+review: Added after the migration (not in the original notes). Verify the default `user` variable exposes `hasRole()` and `getRoles()` under the sandbox.

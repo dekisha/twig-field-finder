@@ -1,0 +1,9 @@
+label: User — email
+group: user
+order: 30
+usesField: false
+raw:
+  - '{{ user.mail.value }}'
+  - '{{ node.getOwner().getEmail() }}'
+notes: The first is for user.html.twig, the second for a node’s author. Printing email addresses exposes them to visitors and scrapers.
+review: Added after the migration (not in the original notes). Verify `getEmail()` passes the Twig sandbox.

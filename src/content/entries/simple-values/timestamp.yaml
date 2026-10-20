@@ -1,0 +1,8 @@
+label: Timestamp
+group: simple-values
+order: 80
+raw:
+  - "{{ __ENTITY__.__FIELD__.value|format_date('custom', 'd.m.Y H:i') }}"
+render:
+  - '{{ content.__FIELD__ }}'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

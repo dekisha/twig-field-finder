@@ -1,0 +1,9 @@
+label: Created / changed date
+group: entity-basics
+order: 80
+usesField: false
+raw:
+  - "{{ __ENTITY__.created.value|format_date('medium') }}"
+  - "{{ __ENTITY__.changed.value|format_date('custom', 'd.m.Y') }}"
+notes: '`format_date` is Drupal core’s Twig filter for timestamps and uses the site’s date formats and timezone. Taxonomy terms have `changed` but no `created`.'
+review: Added after the migration (not in the original notes). Verify both properties per entity type (paragraphs and block content may differ).

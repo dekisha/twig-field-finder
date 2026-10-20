@@ -1,0 +1,10 @@
+label: Media remote video — URL
+group: media
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.field_media_oembed_video.value }}'
+helper:
+  - code: '{{ content.__FIELD__|field_target_entity.field_media_oembed_video.value }}'
+    module: twig_field_value
+notes: Assumes core’s Remote video media type, whose source field is `field_media_oembed_video`.
+review: Added after the migration (not in the original notes). Verify the source field name on your site.

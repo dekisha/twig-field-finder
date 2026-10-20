@@ -1,0 +1,9 @@
+label: Published status
+group: entity-basics
+order: 90
+usesField: false
+raw:
+  - "{{ __ENTITY__.isPublished() ? 'Published' : 'Unpublished' }}"
+  - '{{ __ENTITY__.status.value }}'
+notes: 'Users have no published state: use `user.isActive()` and `user.isBlocked()` instead.'
+review: Added after the migration (not in the original notes). Verify `isPublished()` passes the Twig sandbox for each publishable entity type.

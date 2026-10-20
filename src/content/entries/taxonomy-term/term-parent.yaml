@@ -1,0 +1,9 @@
+label: Term — parent term
+group: taxonomy-term
+order: 10
+usesField: false
+raw:
+  - '{{ term.parent.entity.label() }}'
+  - '{{ term.parent.target_id }}'
+notes: Top-level terms have parent `0` and no parent entity.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11 (terms with several parents return the first).

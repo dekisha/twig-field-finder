@@ -1,0 +1,16 @@
+label: Template variables — view mode, logged in, front page
+group: entity-basics
+order: 130
+usesField: false
+raw:
+  - '{{ view_mode }}'
+  - |-
+    {% if logged_in %}
+      …
+    {% endif %}
+  - |-
+    {% if is_front %}
+      …
+    {% endif %}
+notes: '`view_mode` is set in entity templates; `logged_in` and `is_front` are default variables available in every template.'
+review: Added after the migration (not in the original notes). Verify each variable in node and paragraph templates.

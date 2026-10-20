@@ -33,7 +33,7 @@ the architecture, accessibility and performance get the same care as the feature
 
 | Decision                                                    | Why                                                                                                                                                                                                                                                                                                          |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Astro**, static output                                    | Content-first site: 56 pages of HTML, with JavaScript only where it earns its place.                                                                                                                                                                                                                         |
+| **Astro**, static output                                    | Content-first site: 80 pages of HTML, with JavaScript only where it earns its place.                                                                                                                                                                                                                         |
 | **React island for the builder only**                       | The builder is the one genuinely stateful UI. Everything else is static HTML. Browse filters and static copy buttons are ~1 KB vanilla scripts that enhance the HTML, so without JavaScript nothing is missing and no control is dead.                                                                       |
 | **TypeScript**, `astro/tsconfigs/strictest`                 | `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes` and no `any`, enforced by typescript-eslint's strict type-checked rules.                                                                                                                                                                            |
 | **Content collections**, one YAML file per entry            | Each entry is the unit of review: verifying a note on a real Drupal site touches one small file with a clean diff. YAML block scalars keep multi-line Twig readable. Zod validates the shape. Tests enforce what Zod can't express, such as `usesField` matching `__FIELD__`.                                |
@@ -155,7 +155,7 @@ the snippet, fix it if needed, and delete the `review` line.
 
 ## Testing
 
-- **Unit and content tests:** `pnpm test`, Vitest, about 750 tests.
+- **Unit and content tests:** `pnpm test`, Vitest, about 960 tests.
 - **End-to-end:** `pnpm build && pnpm test:e2e`, Playwright at desktop width and on a 360 px
   mobile viewport.
   - **What it covers:** builder flows, shareable URLs, copy and its announcement, static pages,

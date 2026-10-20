@@ -1,4 +1,8 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { expect, type Page } from '@playwright/test';
+import { parse } from 'yaml';
 
 /** Wait until the builder island has hydrated and Shiki has highlighted. */
 export async function gotoBuilder(page: Page, query = ''): Promise<void> {
@@ -34,4 +38,24 @@ export async function openPicker(page: Page): Promise<void> {
   if (hasTouch) await button.tap();
   else await button.click();
   await expect(page.getByRole('listbox')).toBeVisible();
+}
+
+/** Counts derived from the content collection, so tests don't hard-code them. */
+export function contentStats() {
+  const dir = join(import.meta.dirname, '../src/content/entries');
+  const entries = readdirSync(dir, { recursive: true, encoding: 'utf8' })
+    .filter((f) => f.endsWith('.yaml'))
+    .map(
+      (f) =>
+        parse(readFileSync(join(dir, f), 'utf8')) as {
+          group: string;
+          helper?: { module: string }[];
+        },
+    );
+  return {
+    total: entries.length,
+    byGroup: (group: string) => entries.filter((e) => e.group === group).length,
+    byModule: (module: string) =>
+      entries.filter((e) => (e.helper ?? []).some((h) => h.module === module)).length,
+  };
 }

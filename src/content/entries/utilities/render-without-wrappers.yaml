@@ -1,0 +1,11 @@
+label: Field output without wrappers
+group: utilities
+order: 50
+render:
+  - '{{ content.__FIELD__|render|striptags|trim }}'
+  - '{{ content.__FIELD__.0 }}'
+helper:
+  - code: '{{ content.__FIELD__|field_value }}'
+    module: twig_field_value
+notes: '`striptags` drops all markup: use it only for plain text, such as attributes or meta tags. `content.field_name.0` keeps the formatter’s output for the first item but skips field.html.twig.'
+review: Added after the migration (not in the original notes). Verify `.0` renders the first item with the formatter applied.

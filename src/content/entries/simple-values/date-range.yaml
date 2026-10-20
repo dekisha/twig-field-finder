@@ -1,0 +1,10 @@
+label: Date range — start / end
+group: simple-values
+order: 70
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+  - '{{ __ENTITY__.__FIELD__.end_value }}'
+  - "{{ __ENTITY__.__FIELD__.start_date|date('d.m.Y') }}"
+  - "{{ __ENTITY__.__FIELD__.end_date|date('d.m.Y') }}"
+notes: '`value` and `end_value` are stored strings (UTC). `start_date` and `end_date` are date objects, so `|date` can format them.'
+review: Added after the migration (not in the original notes). Verify the computed `start_date` / `end_date` properties and timezone handling.

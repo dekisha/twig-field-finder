@@ -1,0 +1,7 @@
+label: Language code
+group: entity-basics
+order: 110
+usesField: false
+raw:
+  - '{{ __ENTITY__.langcode.value }}'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

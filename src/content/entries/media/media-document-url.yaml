@@ -1,0 +1,7 @@
+label: Media document — file URL
+group: media
+order: 60
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.field_media_document.entity.uri.value) }}'
+notes: Assumes core’s Document media type, whose source field is `field_media_document`.
+review: Added after the migration (not in the original notes). Verify the source field name on your site.

@@ -1,0 +1,9 @@
+label: Number of values in a field
+group: utilities
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__|length }}'
+render:
+  - "{{ content.__FIELD__['#items']|length }}"
+notes: Methods like `count()` are blocked by Drupal’s Twig sandbox; the `length` filter works because field item lists are countable. For the first item use `.0`.
+review: Added after the migration (not in the original notes). Verify `|length` on a field item list and on `#items` (empty fields may have no `#items` key).

@@ -1,0 +1,21 @@
+label: Loop over a multi-value field
+group: utilities
+order: 30
+raw:
+  - |-
+    {% for item in __ENTITY__.__FIELD__ %}
+      {{ item.value }}
+    {% endfor %}
+render:
+  - |-
+    {% for key, item in content.__FIELD__|filter((item, key) => key|first != '#') %}
+      {{ item }}
+    {% endfor %}
+helper:
+  - code: |-
+      {% for item in content.__FIELD__|children %}
+        {{ item }}
+      {% endfor %}
+    module: twig_tweak
+notes: Raw items expose their properties (`value`, `target_id`, `entity`…). Render-array children are the formatted items; keys starting with `#` are render properties, not items.
+review: Added after the migration (not in the original notes). Verify the render-array filter skips `#` keys for numeric deltas, and that Twig Tweak’s `children` filter is available in your version.

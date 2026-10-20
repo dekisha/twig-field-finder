@@ -26,12 +26,18 @@
 - id: user
   label: User
   order: 90
+- id: taxonomy-term
+  label: Taxonomy term
+  order: 95
 - id: media
   label: Media
   order: 100
 - id: entity-reference
   label: Entity reference
   order: 110
+- id: comments
+  label: Comments
+  order: 115
 - id: paragraphs
   label: Paragraphs
   order: 120

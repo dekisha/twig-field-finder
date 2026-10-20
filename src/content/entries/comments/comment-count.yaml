@@ -1,0 +1,7 @@
+label: Comment count
+group: comments
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.comment_count }}'
+notes: The default comment field is `comment` (`comment_forum` for forums).
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

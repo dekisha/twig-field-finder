@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 
+import { contentStats } from './helpers';
+
+const stats = contentStats();
+
 test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
 
 test('entry page shows every approach and links into the builder', async ({ page }) => {
@@ -33,20 +37,24 @@ test('static copy buttons work', async ({ page }) => {
 test('browse filters by group and module, and restores from the URL', async ({ page }) => {
   await page.goto('/fields/');
   const status = page.locator('[data-browse-status]');
-  await expect(status).toHaveText('Showing all 52 entries');
+  await expect(status).toHaveText(`Showing all ${String(stats.total)} entries`);
 
   await page.getByLabel('Contrib module').selectOption('twig_tweak');
-  await expect(status).toHaveText('Showing 2 of 52 entries');
+  await expect(status).toHaveText(
+    `Showing ${String(stats.byModule('twig_tweak'))} of ${String(stats.total)} entries`,
+  );
   await page.getByLabel('Group').selectOption('link');
   await expect(page.getByText('No entries match these filters.')).toBeVisible();
   await expect(page).toHaveURL(/group=link&module=twig_tweak/);
 
   await page.getByRole('button', { name: 'Clear filters' }).click();
-  await expect(status).toHaveText('Showing all 52 entries');
+  await expect(status).toHaveText(`Showing all ${String(stats.total)} entries`);
 
   await page.goto('/fields/?group=image');
   await expect(page.getByLabel('Group')).toHaveValue('image');
-  await expect(status).toHaveText('Showing 5 of 52 entries');
+  await expect(status).toHaveText(
+    `Showing ${String(stats.byGroup('image'))} of ${String(stats.total)} entries`,
+  );
 });
 
 test('modules page lists every module with its filters', async ({ page }) => {
@@ -68,7 +76,7 @@ test.describe('without JavaScript', () => {
   test('content stays complete and dead controls stay hidden', async ({ page }) => {
     await page.goto('/fields/');
     await expect(page.locator('form[data-browse-filters]')).toBeHidden();
-    await expect(page.locator('[data-browse-item]')).toHaveCount(52);
+    await expect(page.locator('[data-browse-item]')).toHaveCount(stats.total);
 
     await page.goto('/fields/link-url/');
     await expect(page.locator('.snippet-code pre')).toHaveCount(3);

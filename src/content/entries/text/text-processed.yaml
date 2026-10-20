@@ -1,0 +1,9 @@
+label: Text (formatted) — filtered value
+group: text
+order: 45
+raw:
+  - '{{ __ENTITY__.__FIELD__.processed }}'
+render:
+  - '{{ content.__FIELD__ }}'
+notes: '`processed` runs the text format’s filters, so it is safe to print, unlike `.value`. It skips field formatters and their cache metadata: prefer the render array when you can.'
+review: Added after the migration (not in the original notes). Verify `processed` prints filtered markup (it returns a Markup object, so no `|raw` should be needed).

@@ -1,0 +1,9 @@
+label: Number (decimal / float) — formatted
+group: simple-values
+order: 35
+raw:
+  - "{{ __ENTITY__.__FIELD__.value|number_format(2, ',', '.') }}"
+render:
+  - '{{ content.__FIELD__ }}'
+notes: The render array uses the formatter’s thousand and decimal separators; `number_format` takes decimals, decimal point and thousands separator.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

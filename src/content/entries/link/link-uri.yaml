@@ -1,0 +1,7 @@
+label: Link — raw URI
+group: link
+order: 60
+raw:
+  - '{{ __ENTITY__.__FIELD__.uri }}'
+notes: 'The stored form: `internal:/about`, `entity:node/1`, `route:<nolink>` or an external URL. For a usable URL see “Link — URL”.'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.
