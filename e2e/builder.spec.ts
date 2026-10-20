@@ -30,10 +30,9 @@ test('validates the machine name without rewriting it', async ({ page }) => {
   await expect(field).toHaveValue('Hero Image');
 });
 
-test('disables inputs that do not apply, and says why', async ({ page }) => {
+test('hides or disables inputs that do not apply', async ({ page }) => {
   await gotoBuilder(page, '?entry=bundle-machine-name');
-  await expect(page.getByRole('textbox', { name: 'Field machine name' })).toBeDisabled();
-  await expect(page.getByText(/is a property of the entity itself/)).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Field machine name' })).toHaveCount(0);
 
   await gotoBuilder(page, '?entry=link-url&tab=render');
   await expect(page.getByRole('radio', { name: 'Node' })).toBeDisabled();

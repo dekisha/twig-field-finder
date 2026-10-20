@@ -9,8 +9,6 @@ interface Props {
   placeholder: string;
   /** Shown under the input while it's enabled. */
   description: string;
-  /** When set, the input is disabled and this explains why. */
-  disabledReason?: string | undefined;
 }
 
 /**
@@ -24,28 +22,25 @@ export function FieldNameInput({
   onChange,
   placeholder,
   description,
-  disabledReason,
 }: Props) {
-  const isDisabled = disabledReason !== undefined;
   const result = value === '' ? null : validateFieldName(value);
   const error = result && !result.valid ? FIELD_NAME_MESSAGES[result.error] : undefined;
   const warning = result?.valid && result.warning ? FIELD_NAME_MESSAGES[result.warning] : undefined;
-  const suggestion = isDisabled ? null : suggestFieldPrefix(value);
+  const suggestion = suggestFieldPrefix(value);
 
   return (
     <TextField
       className="group flex flex-col gap-1.5"
       value={value}
       onChange={onChange}
-      isDisabled={isDisabled}
-      isInvalid={!isDisabled && error !== undefined}
+      isInvalid={error !== undefined}
       validationBehavior="aria"
       autoComplete="off"
     >
-      <Label className="text-sm font-medium text-ink group-data-disabled:text-muted">{label}</Label>
+      <Label className="text-sm font-medium text-ink">{label}</Label>
       <Input
-        className="w-full rounded-lg border border-control bg-surface px-3 py-2.5 font-mono text-[0.9375rem] text-ink placeholder:font-mono placeholder:text-subtle data-disabled:cursor-not-allowed data-disabled:border-line data-disabled:bg-sunken data-disabled:text-muted data-focused:border-accent data-focused:outline-2 data-focused:outline-offset-0 data-focused:outline-accent/30 data-invalid:border-danger data-invalid:data-focused:outline-danger/30"
-        placeholder={isDisabled ? '' : placeholder}
+        className="w-full rounded-lg border border-control bg-surface px-3 py-2.5 font-mono text-[0.9375rem] text-ink placeholder:font-mono placeholder:text-subtle data-focused:border-accent data-focused:outline-2 data-focused:outline-offset-0 data-focused:outline-accent/30 data-invalid:border-danger data-invalid:data-focused:outline-danger/30"
+        placeholder={placeholder}
         spellCheck={false}
         autoCapitalize="off"
         autoCorrect="off"
@@ -69,7 +64,7 @@ export function FieldNameInput({
         </div>
       )}
       <Text slot="description" className="text-sm text-muted">
-        {isDisabled ? disabledReason : (warning ?? description)}
+        {warning ?? description}
       </Text>
     </TextField>
   );

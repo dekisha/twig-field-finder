@@ -57,19 +57,16 @@ export function SnippetBuilder({
             onChange={builder.setEntry}
             showReview={showReview}
           />
-          <FieldNameInput
-            label="Field machine name"
-            value={state.field}
-            onChange={builder.setField}
-            // Same stand-in the result shows while the input is empty.
-            placeholder={DEFAULT_VALUES.field}
-            description="As shown in Manage fields, e.g. field_hero_image."
-            disabledReason={
-              entry.usesField
-                ? undefined
-                : `${entry.label} is a property of the entity itself, so there’s no field name.`
-            }
-          />
+          {entry.usesField && (
+            <FieldNameInput
+              label="Field machine name"
+              value={state.field}
+              onChange={builder.setField}
+              // Same stand-in the result shows while the input is empty.
+              placeholder={DEFAULT_VALUES.field}
+              description="As shown in Manage fields, e.g. field_hero_image."
+            />
+          )}
           {builder.usesSubfield && (
             <FieldNameInput
               label="Field on the referenced entity"
