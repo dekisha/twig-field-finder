@@ -2,6 +2,7 @@
   "name": "twig-field-finder",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "Twig Field Finder \u2014 Every Drupal field value in Twig, copy-ready.",
   "type": "module",
   "packageManager": "pnpm@12.14.0",

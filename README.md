@@ -251,3 +251,7 @@ location /twig-field-finder/_astro/ {
 - [Vitesse](https://github.com/antfu/vscode-theme-vitesse) themes by Anthony Fu (MIT), adjusted
   for contrast.
 - [Geist and Geist Mono](https://vercel.com/font) by Vercel (SIL Open Font License).
+
+## License
+
+[MIT](LICENSE) © 2026 Dejan Aleksic
