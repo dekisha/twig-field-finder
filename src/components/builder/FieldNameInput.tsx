@@ -16,13 +16,7 @@ interface Props {
  * a stand-in); anything else must match Drupal's machine-name rules. A missing
  * `field_` prefix is offered as a one-click fix, never applied silently.
  */
-export function FieldNameInput({
-  label,
-  value,
-  onChange,
-  placeholder,
-  description,
-}: Props) {
+export function FieldNameInput({ label, value, onChange, placeholder, description }: Props) {
   const result = value === '' ? null : validateFieldName(value);
   const error = result && !result.valid ? FIELD_NAME_MESSAGES[result.error] : undefined;
   const warning = result?.valid && result.warning ? FIELD_NAME_MESSAGES[result.warning] : undefined;
