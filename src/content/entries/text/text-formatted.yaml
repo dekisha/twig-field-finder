@@ -1,0 +1,11 @@
+label: Text (formatted, formatted long)
+group: text
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+render:
+  - '{{ content.__FIELD__ }}'
+helper:
+  - code: '{{ content.__FIELD__|field_value }}'
+    module: twig_field_value
+notes: Raw `.value` bypasses the text format filter. Use the render array for formatted text.

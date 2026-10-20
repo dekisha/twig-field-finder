@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getEntries, getGroups } from '@/data/entries';
+
+// Phase 1 placeholder: proves the content collection loads. The builder lands in Phase 2.
+const [entries, groups] = await Promise.all([getEntries(), getGroups()]);
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-2xl font-semibold">Twig Field Finder</h1>
+    <p class="mt-2 text-neutral-600 dark:text-neutral-400">
+      {entries.length} entries in {groups.length} groups.
+    </p>
+  </main>
+</BaseLayout>

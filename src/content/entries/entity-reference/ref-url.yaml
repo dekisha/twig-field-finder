@@ -1,0 +1,12 @@
+label: Reference — URL
+group: entity-reference
+order: 40
+raw:
+  - "{{ path('entity.node.canonical', {'node': __ENTITY__.__FIELD__.target_id}) }}"
+  - "{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': __ENTITY__.__FIELD__.target_id}) }}"
+render:
+  - "{{ content.__FIELD__[0]['#url'] }}"
+helper:
+  - code: "{{ path('entity.node.canonical', {'node': content.__FIELD__|field_target_entity.id}) }}"
+    module: twig_field_value
+review: Original raw `.0.entity.url` relied on Entity::url(), removed in Drupal 9, and toUrl() is not allowed by the Twig sandbox. Replaced with path(). The render snippet prints `#url`, a Url object, without `|render` (compare link-url) — verify it outputs a string.

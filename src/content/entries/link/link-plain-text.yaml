@@ -1,0 +1,9 @@
+label: Link — plain text
+group: link
+order: 30
+render:
+  - "{{ content.__FIELD__.0['#plain_text'] }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#plain_text'] }}"
+    module: twig_field_value
+review: '`#plain_text` only exists with specific formatter settings (URL only / plain text). Confirm which formatter produces it.'

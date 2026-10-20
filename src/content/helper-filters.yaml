@@ -1,0 +1,12 @@
+- id: field_label
+  module: twig_field_value
+  description: Returns the field label value.
+- id: field_value
+  module: twig_field_value
+  description: Returns the render array of the field value(s) without the field wrappers.
+- id: field_raw
+  module: twig_field_value
+  description: Returns raw field properties value(s).
+- id: field_target_entity
+  module: twig_field_value
+  description: Returns the referenced entity object(s) of an entity reference field.

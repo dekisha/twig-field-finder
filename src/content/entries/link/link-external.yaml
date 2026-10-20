@@ -1,0 +1,5 @@
+label: Link — is external
+group: link
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__.0.url.external }}'

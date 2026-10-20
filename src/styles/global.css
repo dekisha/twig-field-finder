@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+/*
+ * Theme: `data-theme` on <html> is set by an inline script before first paint.
+ * "light" / "dark" are explicit choices; no attribute means "follow the system".
+ */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
+/* Shiki dual themes (defaultColor: false): pick the variable for the active theme. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+[data-theme='dark'] .shiki,
+[data-theme='dark'] .shiki span {
+  color: var(--shiki-dark);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .shiki,
+  :root:not([data-theme='light']) .shiki span {
+    color: var(--shiki-dark);
+  }
+}

@@ -1,0 +1,5 @@
+label: File — description
+group: file
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.description }}'

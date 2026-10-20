@@ -1,0 +1,8 @@
+label: Reference — body / description
+group: entity-reference
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.body.value }}'
+  - '{{ __ENTITY__.__FIELD__.entity.description.value }}'
+notes: '`body` for nodes, `description` for taxonomy terms.'
+review: Original render snippet `content.field_name[0]['#body']` removed — not produced by core formatters.

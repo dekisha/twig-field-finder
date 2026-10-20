@@ -1,0 +1,8 @@
+label: List (text / integer / float)
+group: simple-values
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+render:
+  - '{{ content.__FIELD__ }}'
+notes: Raw `.value` returns the stored key; the render array shows the allowed-value label.

@@ -1,0 +1,5 @@
+label: Text (with summary) — summary
+group: text
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.summary }}'

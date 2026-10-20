@@ -1,0 +1,6 @@
+label: File — size
+group: file
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.getSize() }}'
+review: Corrected from `.0.getSize()` — method is on the File entity.

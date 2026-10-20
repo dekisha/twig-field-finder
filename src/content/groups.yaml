@@ -1,0 +1,27 @@
+# Display order of groups in the picker and browse view.
+- id: entity-basics
+  label: Entity basics
+- id: utilities
+  label: Utilities
+- id: text
+  label: Text
+- id: simple-values
+  label: Simple values
+- id: link
+  label: Link
+- id: image
+  label: Image
+- id: file
+  label: File
+- id: address
+  label: Address
+- id: user
+  label: User
+- id: media
+  label: Media
+- id: entity-reference
+  label: Entity reference
+- id: paragraphs
+  label: Paragraphs
+- id: config-pages
+  label: Config pages

@@ -1,0 +1,12 @@
+label: Body
+group: text
+order: 10
+usesField: false
+raw:
+  - '{{ __ENTITY__.body.value }}'
+render:
+  - '{{ content.body }}'
+helper:
+  - code: '{{ content.body|field_value }}'
+    module: twig_field_value
+notes: Raw `.value` outputs unfiltered, escaped markup. Prefer `content.body` so text formats and cache metadata apply.

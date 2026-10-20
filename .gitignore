@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+
+# environment
+.env
+.env.*
+!.env.example
+
+# test output
+coverage/
+test-results/
+playwright-report/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

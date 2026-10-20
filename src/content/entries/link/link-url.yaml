@@ -1,0 +1,10 @@
+label: Link — URL
+group: link
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.0.url|render }}'
+render:
+  - "{{ content.__FIELD__.0['#url']|render }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#url']|render }}"
+    module: twig_field_value

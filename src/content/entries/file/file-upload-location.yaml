@@ -1,0 +1,5 @@
+label: File — upload location
+group: file
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__.0.getUploadLocation() }}'

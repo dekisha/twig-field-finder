@@ -1,0 +1,13 @@
+label: Link — title
+group: link
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.title }}'
+render:
+  - "{{ content.__FIELD__.0['#title'] }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#title'] }}"
+    module: twig_field_value
+  - code: '{{ content.__FIELD__|field_raw.title }}'
+    module: twig_field_value
+review: Original raw snippet was `node.field_name.0.value.title`; `value` is not a link property. Corrected to `.title`.

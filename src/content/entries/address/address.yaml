@@ -1,0 +1,21 @@
+label: Address (address module)
+group: address
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.address_line1 }}'
+  - '{{ __ENTITY__.__FIELD__.address_line2 }}'
+  - '{{ __ENTITY__.__FIELD__.postal_code }}'
+  - '{{ __ENTITY__.__FIELD__.locality }}'
+  - '{{ __ENTITY__.__FIELD__.country_code }}'
+render:
+  - "{{ content.__FIELD__.0.address_line1['#value'] }}"
+  - "{{ content.__FIELD__.0.address_line2['#value'] }}"
+  - "{{ content.__FIELD__.0.postal_code['#value'] }}"
+  - "{{ content.__FIELD__.0.locality['#value'] }}"
+  - "{{ content.__FIELD__.0.country['#value'] }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value.0.address_line1['#value'] }}"
+    module: twig_field_value
+  - code: "{{ content.__FIELD__|field_value.0.locality['#value'] }}"
+    module: twig_field_value
+review: Original used `.value.address_line1` and `.locality.name` / `.country.name`. AddressItem exposes properties directly (`address_line1`, `locality`, `country_code`). Render-array keys depend on the formatter — verify all three columns.

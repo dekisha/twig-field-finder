@@ -1,0 +1,7 @@
+label: Media — ID
+group: media
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.target_id }}'
+  - '{{ __ENTITY__.__FIELD__.entity.id() }}'
+review: Original was `.0.entity.mid` (returns a field list, not a scalar). Replaced with target_id / id().

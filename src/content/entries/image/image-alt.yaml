@@ -1,0 +1,5 @@
+label: Image — alt
+group: image
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.alt }}'

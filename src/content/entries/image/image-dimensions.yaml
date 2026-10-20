@@ -1,0 +1,6 @@
+label: Image — width / height
+group: image
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.width }}'
+  - '{{ __ENTITY__.__FIELD__.height }}'

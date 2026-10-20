@@ -1,0 +1,7 @@
+label: URL
+group: entity-basics
+order: 30
+usesField: false
+raw:
+  - '{{ url }}'
+notes: '`url` is a template variable provided in node.html.twig, not an entity property.'

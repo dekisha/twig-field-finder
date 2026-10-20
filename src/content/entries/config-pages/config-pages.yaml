@@ -1,0 +1,7 @@
+label: Config page field
+group: config-pages
+order: 10
+usesField: true
+helper:
+  - code: "{{ config_pages_field('my_config_page', '__FIELD__', 'full') }}"
+    module: config_pages

@@ -1,0 +1,5 @@
+label: Media — bundle
+group: media
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.bundle() }}'

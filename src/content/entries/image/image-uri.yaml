@@ -1,0 +1,11 @@
+label: Image — URI
+group: image
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.uri.value }}'
+render:
+  - "{{ content.__FIELD__['#items'].entity.uri.value }}"
+helper:
+  - code: '{{ content.__FIELD__|field_target_entity.uri.value }}'
+    module: twig_field_value
+review: Original raw was `.entity.fileuri` (not a File property) — corrected to `.entity.uri.value`. Helper snippet was marked '??' in the original doc; test it.

@@ -1,0 +1,8 @@
+label: Link — options (attributes)
+group: link
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.0.options }}'
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#options'] }}"
+    module: twig_field_value

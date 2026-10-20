@@ -1,0 +1,12 @@
+label: Boolean
+group: simple-values
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+  - '{{ __ENTITY__.__FIELD__.0.getPossibleOptions() }}'
+render:
+  - "{{ content.__FIELD__[0]['#markup'] }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#markup'] }}"
+    module: twig_field_value
+review: '`.0.getPossibleOptions()` returns an array; printing it directly throws "Array to string conversion". Probably needs `|join('', '')` or a loop — verify.'

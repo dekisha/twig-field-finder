@@ -1,0 +1,14 @@
+label: Image — public URL / image style
+group: image
+order: 20
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.uri.value) }}'
+render:
+  - "{{ file_url(content.__FIELD__['#items'].entity.uri.value) }}"
+helper:
+  - code: "{{ bamboo_render_image_style(__ENTITY__.__FIELD__.entity.field_media_image.entity.uri.value, 'page_header') }}"
+    module: bamboo_twig
+  - code: "{{ __ENTITY__.__FIELD__.entity.uri.value|image_style('thumbnail') }}"
+    module: twig_tweak
+notes: The bamboo example assumes a media reference field whose media has `field_media_image`.
+review: Original raw used `node.field_name['#items']`, which is render-array syntax on an entity. Corrected to `.entity.uri.value`.

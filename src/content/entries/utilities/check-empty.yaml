@@ -1,0 +1,15 @@
+label: Check if field is empty
+group: utilities
+order: 10
+raw:
+  - |-
+    {% if not __ENTITY__.__FIELD__.isEmpty() %}
+      {{ content.__FIELD__ }}
+    {% endif %}
+render:
+  - |-
+    {% set content_render = content.__FIELD__|render %}
+    {% if content_render|trim %}
+      {{ content_render }}
+    {% endif %}
+notes: Use the render-and-trim pattern when isEmpty() is not reliable (e.g. field present but formatter outputs nothing). It avoids rendering the field twice.

@@ -1,0 +1,12 @@
+label: Title / label
+group: entity-basics
+order: 20
+usesField: false
+raw:
+  - '{{ __ENTITY__.label() }}'
+render:
+  - "{{ label.0['#context'].value }}"
+helper:
+  - code: '{{ label|field_raw.value }}'
+    module: twig_field_value
+notes: The `label` variable is available in node.html.twig.

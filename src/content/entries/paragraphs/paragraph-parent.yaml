@@ -1,0 +1,7 @@
+label: Parent entity field value (from a paragraph)
+group: paragraphs
+order: 20
+raw:
+  - '{{ paragraph.getParentEntity().__FIELD__.value }}'
+notes: Use in paragraph--*.html.twig.
+review: Original also listed `rocket_get_parent_paragraph()` (project-specific custom function) and `parent_entity` (preprocess-provided variable). Excluded from the public version.

@@ -1,0 +1,7 @@
+label: Content type human name
+group: entity-basics
+order: 60
+usesField: false
+raw:
+  - '{{ node.type.entity.label() }}'
+notes: Node only. Other entity types store their bundle differently.

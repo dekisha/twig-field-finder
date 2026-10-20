@@ -1,0 +1,6 @@
+label: File — filename
+group: file
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.getFilename() }}'
+review: Corrected from `.0.getFilename()` — method is on the File entity.

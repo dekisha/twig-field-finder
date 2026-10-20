@@ -1,0 +1,9 @@
+label: File — URI / URL
+group: file
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.getFileUri() }}'
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.uri.value) }}'
+render:
+  - "{{ file_url(content.__FIELD__['#items'].entity.uri.value) }}"
+review: Original was `node.field_name.0.getFileUri()`; getFileUri() lives on the File entity, not the field item. Corrected to `.entity.getFileUri()`.

@@ -1,0 +1,13 @@
+label: Published on
+group: entity-basics
+order: 70
+usesField: false
+raw:
+  - "{{ node.published_at.value|date('d.m.Y') }}"
+  - "{{ node.created.value|date('d.m.Y') }}"
+helper:
+  - code: "{{ content.published_at|field_value|first['#text'] }}"
+    module: twig_field_value
+  - code: '{{ content.published_at|field_raw.value }}'
+    module: twig_field_value
+review: '`published_at` comes from the contrib Publication Date module. Core has `created` and `changed`. Label the module or keep only the core version.'

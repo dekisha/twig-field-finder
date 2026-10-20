@@ -1,0 +1,7 @@
+label: Reference — target ID
+group: entity-reference
+order: 10
+raw:
+  - '{{ __ENTITY__.__FIELD__.target_id }}'
+  - '{{ __ENTITY__.__FIELD__.entity.id() }}'
+review: Original was `.0.entity.nid`, which only works for node targets (terms use tid). target_id works for every entity type.

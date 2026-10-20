@@ -1,0 +1,5 @@
+label: Telephone
+group: simple-values
+order: 50
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'

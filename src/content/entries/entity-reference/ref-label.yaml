@@ -1,0 +1,16 @@
+label: Reference — label (term name / node title)
+group: entity-reference
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.label() }}'
+  - '{{ __ENTITY__.__FIELD__.entity.name.value }}'
+  - '{{ __ENTITY__.__FIELD__.entity.title.value }}'
+render:
+  - "{{ content.__FIELD__[0]['#title'] }}"
+helper:
+  - code: '{{ content.__FIELD__|field_target_entity.label }}'
+    module: twig_field_value
+  - code: '{{ content.__FIELD__|field_target_entity.title.value }}'
+    module: twig_field_value
+notes: label() works for any target type; `name` is for terms, `title` for nodes.
+review: Original also listed `content.field_name[0]['#name']` — not a key the default label formatter produces. Removed; verify.

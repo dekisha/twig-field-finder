@@ -1,0 +1,10 @@
+label: Date
+group: simple-values
+order: 60
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+  - "{{ __ENTITY__.__FIELD__.date|date('d.m.Y') }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#text'] }}"
+    module: twig_field_value
+review: Added `.date|date()` variant (DateTimeItem computed `date` property). Verify output.

@@ -1,0 +1,6 @@
+label: Media — name
+group: media
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.name.value }}'
+  - '{{ __ENTITY__.__FIELD__.entity.label() }}'

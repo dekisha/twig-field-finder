@@ -1,0 +1,15 @@
+label: Reference — image on referenced entity
+group: entity-reference
+order: 60
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.__SUBFIELD__.entity.uri.value) }}'
+  - |-
+    {# first item only #}
+    {{ file_url(__ENTITY__.__FIELD__.0.entity.__SUBFIELD__.entity.uri.value) }}
+helper:
+  - code: "{{ bamboo_render_image_style(__ENTITY__.__FIELD__.entity.__SUBFIELD__.entity.uri.value, 'thumbnail') }}"
+    module: bamboo_twig
+  - code: "{{ bamboo_render_image_style(content.__FIELD__|field_target_entity.__SUBFIELD__.entity.uri.value, 'thumbnail') }}"
+    module: bamboo_twig
+  - code: "{{ __ENTITY__.__FIELD__.entity.__SUBFIELD__.entity.uri.value|image_style('thumbnail') }}"
+    module: twig_tweak

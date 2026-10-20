@@ -1,0 +1,6 @@
+label: Bundle (content type) machine name
+group: entity-basics
+order: 50
+usesField: false
+raw:
+  - '{{ __ENTITY__.bundle() }}'

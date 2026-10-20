@@ -1,0 +1,6 @@
+label: Image — title
+group: image
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__.title }}'
+review: Original doc had `.alt` here (copy/paste). Corrected to `.title`.

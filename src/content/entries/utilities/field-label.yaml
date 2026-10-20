@@ -1,0 +1,9 @@
+label: Field label (any field type)
+group: utilities
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.fieldDefinition.label }}'
+helper:
+  - code: '{{ content.__FIELD__|field_label }}'
+    module: twig_field_value
+review: Original raw snippet was `node.field_name.entity.label`, which returns the label of the referenced entity, not the field label. Replaced with fieldDefinition.label; verify it passes the Twig sandbox.

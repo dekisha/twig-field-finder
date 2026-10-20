@@ -1,0 +1,5 @@
+label: Number
+group: simple-values
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'

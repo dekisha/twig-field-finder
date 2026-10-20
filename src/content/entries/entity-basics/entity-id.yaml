@@ -1,0 +1,6 @@
+label: ID
+group: entity-basics
+order: 10
+usesField: false
+raw:
+  - '{{ __ENTITY__.id() }}'

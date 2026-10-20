@@ -1,0 +1,14 @@
+label: Multi-value paragraphs — inside field template loop
+group: paragraphs
+order: 10
+usesField: true
+raw:
+  - |-
+    {% for item in items %}
+      {{ item.content['#paragraph'].__FIELD__.value }}
+    {% endfor %}
+  - |-
+    {% for item in items %}
+      {{ item.content['#paragraph'].get('__FIELD__').entity.label() }}
+    {% endfor %}
+notes: Use in field--paragraphs--*.html.twig where `items` is available. __FIELD__ is a field on the paragraph.

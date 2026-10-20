@@ -1,0 +1,7 @@
+label: Author — username
+group: user
+order: 10
+usesField: false
+raw:
+  - '{{ __ENTITY__.uid.entity.name.value }}'
+  - '{{ __ENTITY__.getOwner().getDisplayName() }}'

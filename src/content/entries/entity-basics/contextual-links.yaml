@@ -1,0 +1,6 @@
+label: Contextual links
+group: entity-basics
+order: 40
+usesField: false
+raw:
+  - '{{ title_suffix.contextual_links }}'

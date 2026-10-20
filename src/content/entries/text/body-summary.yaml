@@ -1,0 +1,6 @@
+label: Body (summary)
+group: text
+order: 20
+usesField: false
+raw:
+  - '{{ __ENTITY__.body.summary }}'

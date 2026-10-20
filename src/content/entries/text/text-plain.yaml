@@ -1,0 +1,10 @@
+label: Text (plain, plain long)
+group: text
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
+render:
+  - "{{ content.__FIELD__[0]['#context'].value }}"
+helper:
+  - code: "{{ content.__FIELD__|field_value|first['#context'].value }}"
+    module: twig_field_value

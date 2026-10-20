@@ -1,0 +1,7 @@
+label: Author — custom user field
+group: user
+order: 20
+usesField: true
+raw:
+  - '{{ __ENTITY__.uid.entity.__FIELD__.value }}'
+notes: 'Example from the original doc: `firstname`, a custom field on the user entity.'

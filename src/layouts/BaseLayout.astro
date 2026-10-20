@@ -1,0 +1,35 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+  /** Page name; rendered as `{title} — Twig Field Finder`. Omit for the home page. */
+  title?: string;
+  description?: string;
+}
+
+const SITE_NAME = 'Twig Field Finder';
+const TAGLINE = 'Every Drupal field value in Twig, copy-ready.';
+
+const { title, description = TAGLINE } = Astro.props;
+const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — ${TAGLINE}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body class="bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+    <slot />
+  </body>
+</html>

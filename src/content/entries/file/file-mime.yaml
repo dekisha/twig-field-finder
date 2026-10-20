@@ -1,0 +1,6 @@
+label: File / media — MIME type
+group: file
+order: 60
+raw:
+  - '{{ __ENTITY__.__FIELD__.entity.getMimeType() }}'
+review: Moved from the entity reference group. getMimeType() exists on File entities; on a media reference you need `.entity.field_media_file.entity.getMimeType()`.

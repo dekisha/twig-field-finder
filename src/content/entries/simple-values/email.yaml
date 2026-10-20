@@ -1,0 +1,5 @@
+label: Email
+group: simple-values
+order: 40
+raw:
+  - '{{ __ENTITY__.__FIELD__.value }}'
