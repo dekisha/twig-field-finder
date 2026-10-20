@@ -2,6 +2,7 @@ label: Term — parent term
 group: taxonomy-term
 order: 10
 usesField: false
+context: taxonomy_term
 raw:
   - '{{ term.parent.entity.label() }}'
   - '{{ term.parent.target_id }}'

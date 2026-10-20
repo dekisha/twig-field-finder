@@ -31,6 +31,11 @@ export const ENTITY_CONTEXTS = [
 export type EntityContext = (typeof ENTITY_CONTEXTS)[number];
 export type EntityContextId = EntityContext['id'];
 
+export const ENTITY_CONTEXT_IDS = ENTITY_CONTEXTS.map((c) => c.id) as [
+  EntityContextId,
+  ...EntityContextId[],
+];
+
 export const DEFAULT_ENTITY_CONTEXT: EntityContextId = 'node';
 
 // Built from the same tuple the id type is derived from, so every id is present.

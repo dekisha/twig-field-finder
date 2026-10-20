@@ -2,6 +2,7 @@ label: Promoted / sticky
 group: entity-basics
 order: 120
 usesField: false
+context: node
 raw:
   - '{{ node.isPromoted() }}'
   - '{{ node.isSticky() }}'

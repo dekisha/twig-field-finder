@@ -2,6 +2,7 @@ label: Paragraph — parent field name
 group: paragraphs
 order: 40
 usesField: false
+context: paragraph
 raw:
   - '{{ paragraph.parent_field_name.value }}'
   - '{{ paragraph.parent_type.value }}'

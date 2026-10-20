@@ -2,6 +2,7 @@ label: Title / label
 group: entity-basics
 order: 20
 usesField: false
+context: node
 raw:
   - '{{ __ENTITY__.label() }}'
 render:

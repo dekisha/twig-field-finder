@@ -2,6 +2,7 @@ label: Published on
 group: entity-basics
 order: 70
 usesField: false
+context: node
 raw:
   - "{{ node.published_at.value|date('d.m.Y') }}"
   - "{{ node.created.value|date('d.m.Y') }}"

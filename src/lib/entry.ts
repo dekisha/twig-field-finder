@@ -1,3 +1,4 @@
+import type { EntityContextId } from './entities';
 import { placeholdersIn, type PlaceholderKey } from './placeholders';
 
 export const APPROACHES = ['raw', 'render', 'helper'] as const;
@@ -31,6 +32,8 @@ export interface Entry {
   group: string;
   label: string;
   usesField: boolean;
+  /** Template the fixed-variable snippets are written for. */
+  context?: EntityContextId;
   raw: string[];
   render: string[];
   helper: HelperSnippet[];

@@ -16,6 +16,7 @@ interface StoredEntry {
   group: string;
   order: number;
   usesField?: boolean;
+  context?: string;
   raw?: string[];
   render?: string[];
   helper?: { code: string; module: string }[];
@@ -84,6 +85,14 @@ describe('content collection', () => {
       expect(found.has('field'), `${id}: usesField=${String(data.usesField ?? true)}`).toBe(
         data.usesField ?? true,
       );
+    });
+
+    it('declares a context only when some approach has no __ENTITY__', () => {
+      if (data.context === undefined) return;
+      const approaches = [data.raw, data.render, data.helper?.map((h) => h.code)];
+      expect(
+        approaches.some((s) => s !== undefined && s.length > 0 && !placeholdersIn(s).has('entity')),
+      ).toBe(true);
     });
 
     it('only uses __SUBFIELD__ together with __FIELD__', () => {

@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import type { Group, Module } from '@/data/types';
 import type { Approach, Entry } from '@/lib/entry';
 
+import { getEntityContext } from '@/lib/entities';
 import { DEFAULT_VALUES } from '@/lib/placeholders';
 
 import { AnnouncerProvider } from './Announcer';
@@ -23,7 +24,10 @@ export interface SnippetBuilderProps {
 }
 
 /** Why the entity selector does nothing for the current snippets. */
-function entityDisabledReason(approach: Approach): string {
+function entityDisabledReason(entry: Entry, approach: Approach): string {
+  if (entry.context !== undefined) {
+    return `These snippets only work in \`${getEntityContext(entry.context).template}\`.`;
+  }
   return approach === 'render'
     ? 'Render-array snippets read `content`, which is the same in every entity template.'
     : 'These snippets use a fixed variable, so they don’t change with the entity.';
@@ -77,9 +81,11 @@ export function SnippetBuilder({
             />
           )}
           <EntityContextControl
-            value={state.entity}
+            // A disabled control shows the template the snippets are written
+            // for; the chosen context comes back for the next entry.
+            value={builder.usesEntity ? state.entity : (entry.context ?? state.entity)}
             onChange={builder.setEntity}
-            disabledReason={builder.usesEntity ? undefined : entityDisabledReason(approach)}
+            disabledReason={builder.usesEntity ? undefined : entityDisabledReason(entry, approach)}
           />
         </section>
 

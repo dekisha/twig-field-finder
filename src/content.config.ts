@@ -2,6 +2,8 @@ import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+import { ENTITY_CONTEXT_IDS } from './lib/entities';
+
 const snippet = z.string().min(1);
 
 /**
@@ -23,6 +25,11 @@ const entries = defineCollection({
       order: z.number().int().nonnegative(),
       /** False for entries that don't take a field name (ID, title, bundle…). */
       usesField: z.boolean().default(true),
+      /**
+       * The entity template these snippets are written for, when they use a
+       * fixed variable (`node`, `paragraph`…) instead of __ENTITY__.
+       */
+      context: z.enum(ENTITY_CONTEXT_IDS).optional(),
       /** Entity access, before formatters. */
       raw: z.array(snippet).optional(),
       /** The `content` render array, after formatters. */

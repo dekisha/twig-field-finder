@@ -2,6 +2,7 @@ label: Paragraph — type
 group: paragraphs
 order: 30
 usesField: false
+context: paragraph
 raw:
   - '{{ paragraph.bundle() }}'
 notes: Use in paragraph--*.html.twig.

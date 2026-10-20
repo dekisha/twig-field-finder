@@ -1,6 +1,7 @@
 label: Parent entity field value (from a paragraph)
 group: paragraphs
 order: 20
+context: paragraph
 raw:
   - '{{ paragraph.getParentEntity().__FIELD__.value }}'
 notes: Use in paragraph--*.html.twig.

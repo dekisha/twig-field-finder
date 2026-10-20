@@ -22,6 +22,7 @@ function toEntry({ id, data }: CollectionEntry<'entries'>): Entry {
       group: data.group.id,
       label: data.label,
       usesField: data.usesField,
+      ...(data.context !== undefined && { context: data.context }),
       raw: data.raw ?? [],
       render: data.render ?? [],
       helper: (data.helper ?? []).map((h) => ({ code: h.code, module: h.module.id })),

@@ -34,6 +34,11 @@ test('hides or disables inputs that do not apply', async ({ page }) => {
   await gotoBuilder(page, '?entry=bundle-machine-name');
   await expect(page.getByRole('textbox', { name: 'Field machine name' })).toHaveCount(0);
 
+  await gotoBuilder(page, '?entry=bundle-human-name&entity=paragraph');
+  await expect(page.getByRole('radio', { name: 'Node' })).toBeChecked();
+  await expect(page.getByRole('radio', { name: 'Node' })).toBeDisabled();
+  await expect(page.getByText(/only work in node\.html\.twig/)).toBeVisible();
+
   await gotoBuilder(page, '?entry=link-url&tab=render');
   await expect(page.getByRole('radio', { name: 'Node' })).toBeDisabled();
   await expect(page.getByText(/Render-array snippets read/)).toBeVisible();
