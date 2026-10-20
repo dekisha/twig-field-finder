@@ -19,6 +19,23 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   output: 'static',
+  // Content-Security-Policy as a <meta> tag with hashes for every inline and
+  // bundled script. Styles allow 'unsafe-inline' because Shiki colours tokens
+  // with style attributes (Astro documents this limitation).
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ],
+      styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+    },
+  },
   integrations: [react()],
   // Downloaded at build time and self-hosted from the site's own origin.
   fonts: [

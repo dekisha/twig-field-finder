@@ -1,6 +1,10 @@
 /**
- * Post-build guard: review notes are a development aid and must never ship.
- * Fails if any `review` text from the collection appears anywhere in `dist/`.
+ * Post-build guards:
+ *
+ * 1. Review notes are a development aid and must never ship: fails if any
+ *    `review` text from the collection appears anywhere in `dist/`.
+ * 2. Every root-relative link and asset URL in the HTML stays under BASE_PATH,
+ *    so a subpath deployment never points at the domain root.
  *
  *   pnpm build && pnpm verify:dist
  */
@@ -31,8 +35,26 @@ const leaks = reviews.flatMap(({ file, review }) => {
   return outputs.filter((o) => o.text.includes(needle)).map((o) => `${file} → dist/${o.file}`);
 });
 
+const base = `/${(process.env.BASE_PATH ?? '/').replace(/^\/+|\/+$/g, '')}/`.replace(/^\/\/$/, '/');
+const outside = outputs
+  .filter((o) => o.file.endsWith('.html'))
+  .flatMap(({ file, text }) =>
+    [...text.matchAll(/\b(?:href|src)="(\/[^"]*)"/g)]
+      .map((m) => m[1] ?? '')
+      .filter((url) => !url.startsWith('//') && !url.startsWith(base))
+      .map((url) => `dist/${file}: ${url}`),
+  );
+
+let failed = false;
 if (leaks.length > 0) {
   console.error(`Review notes found in the production build:\n  ${leaks.join('\n  ')}`);
-  process.exit(1);
+  failed = true;
 }
-console.log(`OK: none of ${reviews.length} review notes appear in ${outputs.length} build files.`);
+if (outside.length > 0) {
+  console.error(`URLs outside the base path "${base}":\n  ${outside.slice(0, 20).join('\n  ')}`);
+  failed = true;
+}
+if (failed) process.exit(1);
+console.log(
+  `OK: none of ${String(reviews.length)} review notes appear in ${String(outputs.length)} build files; all URLs are under "${base}".`,
+);

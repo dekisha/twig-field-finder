@@ -2,9 +2,9 @@
  * One-off migration: `data/twig-field-entries.json` → `src/content/**`.
  *
  * Kept in the repo for provenance. Re-running it overwrites the content
- * collection with the seed, so only do that deliberately:
+ * collection with the seed (losing later edits), so it requires --force:
  *
- *   pnpm seed:split
+ *   pnpm seed:split --force
  *
  * Snippet strings are copied verbatim; `scripts/split-seed.test.ts` asserts the
  * generated collection still matches the seed byte for byte.
@@ -37,6 +37,15 @@ async function write(path: string, data: unknown, header?: string): Promise<void
 }
 
 async function main(): Promise<void> {
+  // The collection has moved on since the migration (review notes, ordering,
+  // module descriptions). Overwriting it must be a deliberate choice.
+  if (!process.argv.includes('--force')) {
+    console.error(
+      'Refusing to overwrite src/content: the collection is now the source of truth.\n' +
+        'Re-run with --force to regenerate it from data/twig-field-entries.json.',
+    );
+    process.exit(1);
+  }
   const seed = JSON.parse(await readFile(seedPath, 'utf8')) as SeedFile;
 
   // Groups keep the order in which they first appear in the seed.

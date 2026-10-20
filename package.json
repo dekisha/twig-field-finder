@@ -2,7 +2,7 @@
   "name": "twig-field-finder",
   "version": "0.1.0",
   "private": true,
-  "description": "Twig Field Finder — Every Drupal field value in Twig, copy-ready.",
+  "description": "Twig Field Finder \u2014 Every Drupal field value in Twig, copy-ready.",
   "type": "module",
   "packageManager": "pnpm@12.14.0",
   "engines": {
@@ -21,7 +21,10 @@
     "test:e2e": "playwright test",
     "seed:split": "tsx scripts/split-seed.ts",
     "verify:dist": "tsx scripts/verify-dist.ts",
-    "highlight:build": "tsx scripts/build-twig-grammar.ts && tsx scripts/build-themes.ts"
+    "highlight:build": "tsx scripts/build-twig-grammar.ts && tsx scripts/build-themes.ts",
+    "build:apache": "astro build && tsx scripts/write-htaccess.ts",
+    "deploy:cloudflare": "astro build && pnpm dlx wrangler@4 deploy",
+    "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:dist"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",
