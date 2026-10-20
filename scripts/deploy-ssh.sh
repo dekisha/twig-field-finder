@@ -22,7 +22,8 @@ fi
 pnpm build:apache
 
 # Upload first, so a failed transfer leaves the live site untouched.
-tar -C dist -czf - . | ssh "$host" 'cat > ~/.deploy-upload.tar.gz'
+# COPYFILE_DISABLE and --no-xattrs keep macOS metadata (._* files, xattrs) out.
+COPYFILE_DISABLE=1 tar --no-xattrs -C dist -czf - . | ssh "$host" 'cat > ~/.deploy-upload.tar.gz'
 
 ssh "$host" "set -e
   cd ~/'$path'
