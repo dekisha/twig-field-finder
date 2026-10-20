@@ -7,8 +7,16 @@ import { withBase } from '@/lib/paths';
 
 const [entries, groups, modules] = await Promise.all([getEntries(), getGroups(), getModules()]);
 
+// Groups keep their configured order; entries within a group are alphabetical
+// here (the builder's picker keeps the curated order).
+const alphabetical = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
 const sections = groups
-  .map((group) => ({ group, entries: entries.filter((e) => e.group === group.id) }))
+  .map((group) => ({
+    group,
+    entries: entries
+      .filter((e) => e.group === group.id)
+      .sort((a, b) => alphabetical.compare(a.label, b.label)),
+  }))
   .filter((s) => s.entries.length > 0);
 
 const moduleUsage = modules.map((m) => ({
@@ -24,7 +32,7 @@ const selectClass =
   title="Browse"
   description="Every Drupal field type and property covered by Twig Field Finder, grouped and filterable by contrib module."
 >
-  <main id="main" class="mx-auto w-full max-w-6xl px-4 pt-10 pb-20 sm:px-6 lg:pt-14">
+  <main id="main" class="mx-auto w-full max-w-3xl px-4 pt-10 pb-20 sm:px-6 lg:pt-14">
     <div class="max-w-2xl">
       <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Browse</h1>
       <p class="mt-3 text-lg text-muted">
@@ -114,7 +122,7 @@ const selectClass =
       No entries match these filters.
     </p>
 
-    <div class="mt-4 grid gap-x-10 gap-y-10 md:grid-cols-2">
+    <div class="mt-4 flex flex-col gap-10">
       {sections.map(({ group, entries: items }) => (
         <section data-browse-group aria-labelledby={`group-${group.id}`}>
           <h2

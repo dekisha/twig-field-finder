@@ -93,3 +93,14 @@ test('pages never scroll horizontally', async ({ page }) => {
     expect(overflow, path).toBe(0);
   }
 });
+
+test('browse lists entries alphabetically within each group', async ({ page }) => {
+  await page.goto('/fields/');
+  for (const section of await page.locator('[data-browse-group]').all()) {
+    const labels = await section.locator('[data-browse-item] a').allInnerTexts();
+    const sorted = [...labels].sort((a, b) =>
+      a.localeCompare(b, 'en', { sensitivity: 'base', numeric: true }),
+    );
+    expect(labels).toEqual(sorted);
+  }
+});
