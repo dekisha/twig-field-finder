@@ -76,9 +76,7 @@ test('restores shared state from the URL and keeps it in sync', async ({ page })
 
 test('ignores invalid URL state', async ({ page }) => {
   await gotoBuilder(page, '?entry=nope&entity=planet&tab=magic');
-  await expect(page.locator('#result-heading')).toHaveText(
-    'Reference — label (term name / node title)',
-  );
+  await expect(page.locator('#result-heading')).toHaveText('Link — title');
 });
 
 test.describe('short viewport', () => {

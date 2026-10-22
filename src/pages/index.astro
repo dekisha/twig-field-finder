@@ -6,7 +6,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 const [entries, groups, modules] = await Promise.all([getEntries(), getGroups(), getModules()]);
 
 /** Shown on first visit: it has every approach, several snippets and a note. */
-const DEFAULT_ENTRY = 'ref-label';
+const DEFAULT_ENTRY = 'link-title';
 ---
 
 <BaseLayout>

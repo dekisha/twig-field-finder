@@ -60,7 +60,7 @@ for (const theme of ['light', 'dark'] as const) {
 }
 
 test('every interactive element can be reached and shows a focus ring', async ({ page }) => {
-  await gotoBuilder(page);
+  await gotoBuilder(page, '?entry=ref-label');
   const seen = new Set<string>();
   for (let i = 0; i < 40; i++) {
     await page.keyboard.press('Tab');
