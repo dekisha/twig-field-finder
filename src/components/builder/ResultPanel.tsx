@@ -94,13 +94,16 @@ export function ResultPanel({
         >
           <TabList
             aria-label="Approach"
-            className="flex gap-1 overflow-x-auto border-b border-line px-3 sm:px-4"
+            // The baseline is an inset shadow, not a border, so the selected
+            // tab's underline covers it without overflowing: a scrolling list
+            // can't let anything spill out vertically.
+            className="flex gap-1 overflow-x-auto px-3 shadow-[inset_0_-1px_0_var(--line)] sm:px-4"
           >
             {approaches.map((a) => (
               <Tab
                 key={a}
                 id={a}
-                className="relative -mb-px cursor-default border-b-2 border-transparent px-2.5 py-3 text-sm font-medium whitespace-nowrap text-muted hover:text-ink data-focus-visible:rounded-t-md data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-selected:border-accent data-selected:text-ink"
+                className="relative cursor-default border-b-2 border-transparent px-2.5 py-3 text-sm font-medium whitespace-nowrap text-muted hover:text-ink data-focus-visible:rounded-t-md data-focus-visible:outline-2 data-focus-visible:-outline-offset-2 data-focus-visible:outline-focus data-selected:border-accent data-selected:text-ink"
               >
                 {APPROACH_LABELS[a]}
               </Tab>
