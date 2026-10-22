@@ -8,7 +8,7 @@ array, or a contrib helper module.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshot-dark.png">
-  <img src="docs/screenshot-light.png" alt="The snippet builder: the field type picker, machine name and template context on the left; the highlighted Twig result with copy buttons on the right.">
+  <img src="docs/screenshot-light.png" alt="The snippet builder: the field type picker and machine name on the left; on the right, approach tabs, the template context and the highlighted Twig result with copy buttons.">
 </picture>
 
 It started as my personal notes on getting field values in Twig. It is also a portfolio piece, so
@@ -18,14 +18,16 @@ the architecture, accessibility and performance get the same care as the feature
 
 - **Snippet builder.** A fuzzy, grouped, fully keyboard-operable field-type picker. Field
   machine-name input with inline validation and a one-click `field_` prefix suggestion that never
-  rewrites your input. Template context (node, paragraph, media, term, user, block). Approach tabs,
-  syntax highlighting with your values marked, copy per snippet or all at once.
+  rewrites your input. Approach tabs, syntax highlighting with your values marked, copy per snippet
+  or all at once. Template context (node, paragraph, media, term, user, block) sits next to the
+  snippets it changes, and names the one template they work in when they're tied to it.
 - **Shareable answers.** The builder state lives in the URL:
   `/?entry=link-url&field=field_cta&entity=taxonomy_term&tab=render`.
 - **A static page per entry** (`/fields/[id]/`) with every approach, for search and direct links,
   each linking into the builder with the state prefilled.
 - **Browse** every entry, filterable by group and contrib module, and a **helper modules** page.
 - **Dark mode** that follows the system, with a manual System / Light / Dark switch.
+- **Optional Google Analytics**, off unless `PUBLIC_GA_ID` is set at build time.
 - **Review mode** in development: entries I corrected or am unsure about show their verification
   note. Production builds leave the notes out, and a post-build check proves it.
 
@@ -123,8 +125,9 @@ e2e/                            Playwright and axe tests
        module: twig_field_value # an id from modules.yaml
    ```
 
-   Optional keys: `usesField: false` (see below), `notes` (shown under the result as a gotcha;
-   supports `inline code`) and `review` (what to verify; shown in development only).
+   Optional keys: `usesField: false` (see below), `context` (see below), `notes` (shown under the
+   result as a gotcha; supports `inline code`) and `review` (what to verify; shown in development
+   only).
 
 2. Placeholders:
    - `__ENTITY__` becomes the template's entity variable (`node`, `paragraph`, `media`, `term`,
@@ -136,8 +139,9 @@ e2e/                            Playwright and axe tests
    name (ID, title, bundle…), set `usesField: false`.
 
 3. Run `pnpm test`. The content tests check the folder and group, known modules, unique ids and
-   order, `usesField` against `__FIELD__`, `__SUBFIELD__` only with `__FIELD__`, and no misspelt
-   placeholders. Every snippet is also highlighted and contrast-checked.
+   order, `usesField` against `__FIELD__`, `__SUBFIELD__` only with `__FIELD__`, `context` only
+   where a snippet doesn't use `__ENTITY__`, and no misspelt placeholders. Every snippet is also
+   highlighted and contrast-checked.
 
 **New group:** add it to `groups.yaml` with an `order`. **New module:** add it to `modules.yaml`
 with a name, a drupal.org URL and a one-line description.
