@@ -5,4 +5,4 @@ usesField: false
 context: node
 raw:
   - '{{ url }}'
-notes: '`url` is a template variable provided in node.html.twig, not an entity property.'
+notes: '`url` is a template variable, not an entity property.'

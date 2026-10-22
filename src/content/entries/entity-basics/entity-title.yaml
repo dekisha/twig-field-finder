@@ -10,4 +10,3 @@ render:
 helper:
   - code: '{{ label|field_raw.value }}'
     module: twig_field_value
-notes: The `label` variable is available in node.html.twig.

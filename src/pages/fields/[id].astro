@@ -11,10 +11,12 @@ import {
   APPROACH_LABELS,
   approachesFor,
   modulesFor,
+  placeholdersFor,
   snippetsFor,
   type Approach,
   type Entry,
 } from '@/lib/entry';
+import { getEntityContext } from '@/lib/entities';
 import { withBase } from '@/lib/paths';
 import { serializeBuilderState } from '@/lib/url-state';
 
@@ -125,6 +127,11 @@ const description = `How to get ${entry.label.replace(/ — /g, ' ')} in a Drupa
           </div>
           <p class="mt-1 text-sm text-muted">
             <InlineCode text={APPROACH_DESCRIPTIONS[approach]} />
+            {entry.context !== undefined && !placeholdersFor(entry, approach).has('entity') && (
+              <InlineCode
+                text={` Only works in \`${getEntityContext(entry.context).template}\`.`}
+              />
+            )}
           </p>
           <ol class="mt-4 flex flex-col gap-3">
             {snippets.map((snippet, index) => (

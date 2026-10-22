@@ -6,5 +6,4 @@ context: node
 raw:
   - '{{ node.isPromoted() }}'
   - '{{ node.isSticky() }}'
-notes: Node only.
 review: Added after the migration (not in the original notes). Verify both methods pass the Twig sandbox.

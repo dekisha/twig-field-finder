@@ -5,5 +5,4 @@ usesField: false
 context: paragraph
 raw:
   - '{{ paragraph.bundle() }}'
-notes: Use in paragraph--*.html.twig.
 review: Added after the migration (not in the original notes). Verify on Drupal 10/11.
