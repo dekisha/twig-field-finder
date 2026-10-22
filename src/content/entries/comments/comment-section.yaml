@@ -1,0 +1,7 @@
+label: Comments — thread and form
+group: comments
+order: 20
+render:
+  - '{{ content.__FIELD__ }}'
+notes: The comment field renders the comment list and the reply form together, under the same field name as on Manage fields (`comment` by default).
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

@@ -1,0 +1,11 @@
+label: Term — description
+group: taxonomy-term
+order: 30
+usesField: false
+context: taxonomy_term
+raw:
+  - '{{ term.description.processed }}'
+render:
+  - '{{ content.description }}'
+notes: '`processed` runs the description through its text format. `value` is the unfiltered source, so don’t print it with `|raw`.'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

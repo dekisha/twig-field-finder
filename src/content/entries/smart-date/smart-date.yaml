@@ -1,0 +1,9 @@
+label: Smart Date — start / end
+group: smart-date
+order: 10
+raw:
+  - "{{ __ENTITY__.__FIELD__.value|format_date('medium') }}"
+  - "{{ __ENTITY__.__FIELD__.end_value|format_date('medium') }}"
+  - "{{ __ENTITY__.__FIELD__.value|date('d.m.Y H:i', __ENTITY__.__FIELD__.timezone ?: null) }}"
+notes: Needs the Smart Date module. `value` and `end_value` are Unix timestamps. Each value can have its own `timezone`; when it’s empty, the site or user timezone applies.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11. Check the per-item timezone fallback.

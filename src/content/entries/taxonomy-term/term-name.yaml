@@ -1,0 +1,10 @@
+label: Term — name
+group: taxonomy-term
+order: 20
+usesField: false
+context: taxonomy_term
+raw:
+  - '{{ term.label() }}'
+render:
+  - '{{ name }}'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

@@ -1,0 +1,11 @@
+label: Smart Date — duration / all day
+group: smart-date
+order: 20
+raw:
+  - '{{ __ENTITY__.__FIELD__.duration }}'
+  - |-
+    {% if __ENTITY__.__FIELD__.duration % 1440 == 1439 %}
+      {# all-day event #}
+    {% endif %}
+notes: Needs the Smart Date module. `duration` is in minutes. All-day events are stored as 00:00 to 23:59, so their duration is 1439 (plus 1440 for each extra day).
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

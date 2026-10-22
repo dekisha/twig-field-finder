@@ -1,0 +1,8 @@
+label: Comments — last comment date / author
+group: comments
+order: 40
+raw:
+  - "{{ __ENTITY__.__FIELD__.last_comment_timestamp|format_date('medium') }}"
+  - '{{ __ENTITY__.__FIELD__.last_comment_name }}'
+notes: Comment statistics are stored on the field item, so these work without loading any comment.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

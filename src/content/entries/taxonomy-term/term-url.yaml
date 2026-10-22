@@ -1,0 +1,9 @@
+label: Term — URL
+group: taxonomy-term
+order: 50
+usesField: false
+context: taxonomy_term
+raw:
+  - '{{ url }}'
+notes: '`url` is a template variable, not an entity property.'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

@@ -1,0 +1,11 @@
+label: Media — thumbnail
+group: media
+order: 70
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.thumbnail.entity.uri.value) }}'
+  - '{{ __ENTITY__.__FIELD__.entity.thumbnail.alt }}'
+helper:
+  - code: "{{ __ENTITY__.__FIELD__.entity.thumbnail.entity.uri.value|image_style('thumbnail') }}"
+    module: twig_tweak
+notes: Every media type has a `thumbnail` image field, whatever its source. For images it’s the image itself; for documents and remote videos it’s an icon or the provider’s thumbnail.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

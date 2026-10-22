@@ -1,0 +1,11 @@
+label: Comments — open / closed
+group: comments
+order: 30
+raw:
+  - '{{ __ENTITY__.__FIELD__.status }}'
+  - |-
+    {% if __ENTITY__.__FIELD__.status == 2 %}
+      {# comments are open #}
+    {% endif %}
+notes: '`2` is open, `1` closed (existing comments shown, no new ones), `0` hidden.'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

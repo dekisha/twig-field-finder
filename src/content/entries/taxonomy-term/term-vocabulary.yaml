@@ -1,0 +1,10 @@
+label: Term — vocabulary
+group: taxonomy-term
+order: 40
+usesField: false
+context: taxonomy_term
+raw:
+  - '{{ term.bundle() }}'
+  - '{{ term.vid.entity.label() }}'
+notes: '`bundle()` gives the machine name (`tags`), `vid.entity.label()` the human name (Tags).'
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.

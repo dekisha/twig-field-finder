@@ -23,6 +23,9 @@
 - id: address
   label: Address
   order: 80
+- id: smart-date
+  label: Smart Date
+  order: 85
 - id: user
   label: User
   order: 90

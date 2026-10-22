@@ -1,0 +1,10 @@
+label: Media image — URL / image style
+group: media
+order: 45
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.field_media_image.entity.uri.value) }}'
+helper:
+  - code: "{{ __ENTITY__.__FIELD__.entity.field_media_image.entity.uri.value|image_style('large') }}"
+    module: twig_tweak
+notes: Assumes core’s Image media type, whose source field is `field_media_image`.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11. Check the source field name on your site.

@@ -1,0 +1,7 @@
+label: Media video — file URL
+group: media
+order: 80
+raw:
+  - '{{ file_url(__ENTITY__.__FIELD__.entity.field_media_video_file.entity.uri.value) }}'
+notes: Assumes core’s Video media type, whose source field is `field_media_video_file`. For YouTube or Vimeo, see Media remote video — URL.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11. Check the source field name on your site.

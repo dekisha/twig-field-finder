@@ -1,0 +1,13 @@
+label: Comment — author, date, body (comment.html.twig)
+group: comments
+order: 50
+usesField: false
+raw:
+  - '{{ comment.getAuthorName() }}'
+  - "{{ comment.created.value|format_date('medium') }}"
+render:
+  - '{{ author }}'
+  - '{{ created }}'
+  - '{{ content.comment_body }}'
+notes: In comment.html.twig the entity is `comment`. `author`, `created` and `permalink` are ready-made template variables.
+review: Added after the migration (not in the original notes). Verify on Drupal 10/11.
