@@ -8,9 +8,11 @@
 #   DEPLOY_HOST  SSH host or ~/.ssh/config alias.
 #   DEPLOY_PATH  Document root on the server, relative to the home directory.
 #   SITE_URL     Public URL of the site.
+#   PUBLIC_GA_ID Google Analytics measurement ID (shared with dejanaleksic.com).
 set -euo pipefail
 
 export SITE_URL="${SITE_URL:-https://twigfieldfinder.dejanaleksic.com}"
+export PUBLIC_GA_ID="${PUBLIC_GA_ID:-G-9TQ4J8PW85}"
 host="${DEPLOY_HOST:-dartlamp}"
 path="${DEPLOY_PATH:-twigfieldfinder.dejanaleksic.com}"
 

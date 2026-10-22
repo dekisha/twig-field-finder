@@ -77,10 +77,11 @@ pnpm dev                # http://localhost:4321, review notes visible
 
 ### Environment variables
 
-| Variable    | Default                 | Purpose                                                                  |
-| ----------- | ----------------------- | ------------------------------------------------------------------------ |
-| `SITE_URL`  | `http://localhost:4321` | Absolute origin for canonical and Open Graph URLs. Set it in production. |
-| `BASE_PATH` | `/`                     | Path prefix when served from a subpath, e.g. `/twig-field-finder`.       |
+| Variable       | Default                 | Purpose                                                                                               |
+| -------------- | ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| `SITE_URL`     | `http://localhost:4321` | Absolute origin for canonical and Open Graph URLs. Set it in production.                              |
+| `BASE_PATH`    | `/`                     | Path prefix when served from a subpath, e.g. `/twig-field-finder`.                                    |
+| `PUBLIC_GA_ID` | unset                   | Google Analytics measurement ID (`G-…`). When set, adds gtag.js and opens the CSP for Google's hosts. |
 
 ## Project structure
 
@@ -220,9 +221,9 @@ headers, long caching for `/_astro/`, revalidation for HTML, and compression. Ap
 build.
 
 For a subdomain over SSH, `pnpm deploy:ssh` builds and uploads in one step (no `rsync` needed on
-the server). Set `DEPLOY_HOST`, `DEPLOY_PATH` and `SITE_URL` to override the defaults in
-`scripts/deploy-ssh.sh`. It replaces the previous deploy but keeps cPanel's `.well-known`,
-`cgi-bin`, `php.ini` and `.user.ini`.
+the server). Set `DEPLOY_HOST`, `DEPLOY_PATH`, `SITE_URL` and `PUBLIC_GA_ID` to override the
+defaults in `scripts/deploy-ssh.sh`. It replaces the previous deploy but keeps cPanel's
+`.well-known`, `cgi-bin`, `php.ini` and `.user.ini`.
 
 On **nginx**, a starting point (adjust the paths to your server):
 

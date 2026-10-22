@@ -19,6 +19,8 @@ const TAGLINE = 'Every Drupal field value in Twig, copy-ready.';
 const { title, description = TAGLINE } = Astro.props;
 const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — ${TAGLINE}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Validated in astro.config.ts, which also opens the CSP for Google's hosts.
+const gaId = import.meta.env.PUBLIC_GA_ID as string | undefined;
 ---
 
 <!doctype html>
@@ -49,6 +51,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
          swaps in with metric-matched fallbacks, so it causes no layout shift. -->
     <Font cssVariable="--font-geist" preload />
     <Font cssVariable="--font-geist-mono" />
+    {gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body class="flex min-h-dvh flex-col antialiased">
     <a

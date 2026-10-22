@@ -10,9 +10,21 @@ import { defineConfig, fontProviders } from 'astro/config';
  *   SITE_URL   Absolute origin used for canonical URLs and Open Graph tags.
  *   BASE_PATH  Path prefix when served from a subpath, e.g. `/twig-field-finder`.
  *              Defaults to `/` (Cloudflare Pages / subdomain).
+ *   PUBLIC_GA_ID  Google Analytics measurement ID (`G-…`). When unset, no analytics
+ *              code ships and the CSP stays same-origin.
  */
 const site = process.env.SITE_URL ?? 'http://localhost:4321';
 const base = process.env.BASE_PATH ?? '/';
+
+const gaId = process.env.PUBLIC_GA_ID;
+if (gaId && !/^G-[A-Z0-9]+$/.test(gaId)) {
+  throw new Error(`PUBLIC_GA_ID must look like G-XXXXXXXXXX, got "${gaId}".`);
+}
+// Hosts gtag.js reports to (Google's documented CSP for GA4); the script
+// itself loads from googletagmanager.com.
+const gaHosts = gaId
+  ? ' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com'
+  : '';
 
 export default defineConfig({
   site,
@@ -26,14 +38,15 @@ export default defineConfig({
     csp: {
       directives: [
         "default-src 'self'",
-        "img-src 'self' data:",
+        `img-src 'self' data:${gaHosts}`,
         "font-src 'self'",
-        "connect-src 'self'",
+        `connect-src 'self'${gaHosts}`,
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",
       ],
       styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+      ...(gaId && { scriptDirective: { resources: ["'self'", 'https://*.googletagmanager.com'] } }),
     },
   },
   integrations: [react()],
