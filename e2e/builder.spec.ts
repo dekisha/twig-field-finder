@@ -35,13 +35,19 @@ test('hides or disables inputs that do not apply', async ({ page }) => {
   await expect(page.getByRole('textbox', { name: 'Field machine name' })).toHaveCount(0);
 
   await gotoBuilder(page, '?entry=bundle-human-name&entity=paragraph');
-  await expect(page.getByRole('radio', { name: 'Node' })).toBeChecked();
-  await expect(page.getByRole('radio', { name: 'Node' })).toBeDisabled();
-  await expect(page.getByText(/only work in node\.html\.twig/)).toBeVisible();
+  await expect(page.getByRole('radiogroup', { name: 'Template context' })).toHaveCount(0);
+  await expect(resultPanel(page).getByText(/only work in node\.html\.twig/)).toBeVisible();
 
   await gotoBuilder(page, '?entry=link-url&tab=render');
-  await expect(page.getByRole('radio', { name: 'Node' })).toBeDisabled();
-  await expect(page.getByText(/Render-array snippets read/)).toBeVisible();
+  await expect(page.getByRole('radiogroup', { name: 'Template context' })).toHaveCount(0);
+  await expect(resultPanel(page).getByText(/Render-array snippets read/)).toBeVisible();
+
+  // Helper snippets can use the entity too.
+  await gotoBuilder(page, '?entry=image-path&tab=helper&entity=media');
+  await expect(
+    resultPanel(page).getByRole('radiogroup', { name: 'Template context' }),
+  ).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Media' })).toBeChecked();
 
   await gotoBuilder(page, '?entry=ref-subfield');
   await expect(page.getByRole('textbox', { name: 'Field on the referenced entity' })).toBeVisible();

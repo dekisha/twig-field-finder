@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Tab, TabList, TabPanel, Tabs, type Key } from 'react-aria-components';
 
 import { InlineCode } from '@/components/InlineCode';
@@ -25,6 +26,8 @@ interface Props {
   snippets: readonly ResolvedSnippet[];
   modules: ReadonlyMap<string, Module>;
   highlighter: Highlighter | null;
+  /** Template context control, shown between the approach note and the code. */
+  entityControl: ReactNode;
   showReview: boolean;
 }
 
@@ -38,6 +41,7 @@ export function ResultPanel({
   snippets,
   modules,
   highlighter,
+  entityControl,
   showReview,
 }: Props) {
   const body = (
@@ -46,6 +50,7 @@ export function ResultPanel({
       snippets={snippets}
       modules={modules}
       highlighter={highlighter}
+      entityControl={entityControl}
     />
   );
 
@@ -156,17 +161,20 @@ function ApproachBody({
   snippets,
   modules,
   highlighter,
+  entityControl,
 }: {
   approach: Approach;
   snippets: readonly ResolvedSnippet[];
   modules: ReadonlyMap<string, Module>;
   highlighter: Highlighter | null;
+  entityControl: ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-3 px-5 py-5 sm:px-6">
       <p className="text-sm text-muted">
         <InlineCode text={APPROACH_DESCRIPTIONS[approach]} />
       </p>
+      {entityControl}
       <ol className="flex flex-col gap-3">
         {snippets.map((snippet, i) => {
           const module = snippet.module === undefined ? undefined : modules.get(snippet.module);

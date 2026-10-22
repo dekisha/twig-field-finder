@@ -23,8 +23,8 @@ export interface SnippetBuilderProps {
   showReview: boolean;
 }
 
-/** Why the entity selector does nothing for the current snippets. */
-function entityDisabledReason(entry: Entry, approach: Approach): string {
+/** Why the current snippets don't change with the entity. */
+function fixedEntityReason(entry: Entry, approach: Approach): string {
   if (entry.context !== undefined) {
     return `These snippets only work in \`${getEntityContext(entry.context).template}\`.`;
   }
@@ -80,13 +80,6 @@ export function SnippetBuilder({
               description="The field to read on the referenced entity, e.g. field_image."
             />
           )}
-          <EntityContextControl
-            // A disabled control shows the template the snippets are written
-            // for; the chosen context comes back for the next entry.
-            value={builder.usesEntity ? state.entity : (entry.context ?? state.entity)}
-            onChange={builder.setEntity}
-            disabledReason={builder.usesEntity ? undefined : entityDisabledReason(entry, approach)}
-          />
         </section>
 
         <div className="lg:sticky lg:top-6">
@@ -99,6 +92,15 @@ export function SnippetBuilder({
             snippets={builder.snippets}
             modules={moduleMap}
             highlighter={highlighter}
+            entityControl={
+              <EntityContextControl
+                // A note replaces the control while the snippets don't use the
+                // entity; the chosen context comes back for the next entry.
+                value={state.entity}
+                onChange={builder.setEntity}
+                fixedReason={builder.usesEntity ? undefined : fixedEntityReason(entry, approach)}
+              />
+            }
             showReview={showReview}
           />
         </div>
