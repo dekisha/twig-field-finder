@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 import { contentStats } from './helpers';
 
@@ -84,7 +84,7 @@ test.describe('without JavaScript', () => {
   });
 });
 
-test('pages never scroll horizontally', async ({ page }) => {
+async function expectNoHorizontalScroll(page: Page) {
   for (const path of ['/', '/?entry=image-path', '/fields/', '/fields/ref-image/', '/modules/']) {
     await page.goto(path);
     const overflow = await page.evaluate(
@@ -92,6 +92,18 @@ test('pages never scroll horizontally', async ({ page }) => {
     );
     expect(overflow, path).toBe(0);
   }
+}
+
+test('pages never scroll horizontally', async ({ page }) => {
+  await expectNoHorizontalScroll(page);
+});
+
+test.describe('smallest phones', () => {
+  test.use({ viewport: { width: 320, height: 640 } });
+
+  test('pages never scroll horizontally at 320 px', async ({ page }) => {
+    await expectNoHorizontalScroll(page);
+  });
 });
 
 test('browse lists entries alphabetically within each group', async ({ page }) => {
